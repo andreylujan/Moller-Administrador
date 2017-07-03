@@ -2,14 +2,14 @@
 lock '3.7.1'
 
 set :application, 'admin'
-set :repo_url, 'git@github.com:andreylujan/Moller-Admin.git'
+set :repo_url, 'git@github.com:andreylujan/Moller-Administrador.git'
 set :branch, 'master'
 
-set :ssh_options, {
- keys: [ "#{ENV['HOME']}/.ssh/echeckit_production.pem", "./keys/echeckit_production.pem" ],
- forward_agent: true,
- auth_methods: ["publickey"]
-}
+#set :ssh_options, {
+# keys: [ "#{ENV['HOME']}/.ssh/echeckit_production.pem", "./keys/echeckit_production.pem" ],
+# forward_agent: true,
+# auth_methods: ["publickey"]
+#}
 
 # Default value for :scm is :git
 set :scm, :git
