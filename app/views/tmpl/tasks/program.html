@@ -1,0 +1,197 @@
+<div class="page">
+
+	<!-- page header -->
+	<div class="pageheader" id="pageHeader">
+
+		<h2>{{page.title}} <span></span></h2>
+
+		<div class="page-bar">
+
+			<ul class="page-breadcrumb">
+				<li>
+          <a ui-sref="efinding.dashboard.generic"> {{main.title}}</a>
+        </li>
+				<li>
+					<a href="javascript:;">Reportes</a>
+				</li>
+				<li>
+					<a ui-sref="app.playStation.reports">{{page.title}}</a>
+				</li>
+			</ul>
+
+		</div>
+
+	</div>
+	<!-- /page header -->
+
+	<!-- page content -->
+	<div class="pagecontent">
+
+		<!-- row -->
+		<div class="row">
+
+			<!-- col -->
+			<div class="col-md-6 col-md-offset-3">
+
+
+				<!-- tile -->
+				<section class="tile" fullscreen="isFullscreen06">
+
+					<!-- tile header -->
+					<div class="tile-header dvd dvd-btm">
+						<h1 class="custom-font"></h1>
+						<ul class="controls">
+							<li class="dropdown" dropdown on-toggle="toggled(open)">
+
+								<a href dropdown-toggle class="dropdown-toggle settings"><i class="fa fa-cog"></i></a>
+
+								<ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
+									<li>
+										<a href tile-control-toggle>
+											<span class="minimize"><fa name="angle-down"></fa>&nbsp;&nbsp;&nbsp;Minimizar</span>
+											<span class="expand"><fa name="angle-up"></fa>&nbsp;&nbsp;&nbsp;Maximizar</span>
+										</a>
+									</li>
+									<li>
+										<a href>
+											<fa name="refresh"></fa> Refrescar
+										</a>
+									</li>
+									<li>
+										<a href tile-control-fullscreen ng-click="isFullscreen06 = !isFullscreen06">
+											<fa name="expand"></fa> Pantalla completa
+										</a>
+									</li>
+
+								</ul>
+
+							</li>
+							<li class="remove"><a href tile-control-close><i class="fa fa-times"></i></a></li>
+						</ul>
+					</div>
+					<!-- /tile header -->
+
+					<!-- tile body -->
+					<div class="tile-body">
+
+						<div class="alert alert-{{page.alert.color}} alert-dismissable" ng-show="page.alert.show">
+							<strong>{{page.alert.title}}</strong> {{page.alert.subtitle}}
+						</div>
+
+						<form class="form-horizontal" role="form">
+							<h4 class="text-center">Carga masiva</h4>
+							<div class="form-group">
+								<div class="col-sm-12">
+									<input type="file" class="form-control rounded" file-model="page.csvFile" accept=".xls,.xlsx,.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
+								</div>
+							</div>
+						</form>
+
+						<div class="text-center">
+							<!-- <button type="submit" class="btn btn-rounded btn-success btn-sm" ng-click="programTask()">Subir</button> -->
+						</div>
+
+						<hr>
+
+						<form class="form-horizontal" role="form" name="page.forms.form1" novalidate>
+							<h4 class="text-center">Carga manual</h4>
+              <div class="form-group">
+                <label for="inputEmail3" class="col-sm-3 control-label">Usuario</label>
+                <div class="col-sm-8">
+                  <select name="user" id="" class="form-control rounded" ng-options="user.fullName disable when user.disabled for user in page.users track by user.id" ng-model="page.selectedUser" required></select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword3" class="col-sm-3 control-label">Número de serie equipo</label>
+                <div class="col-sm-8">
+                  <select name="serialNumber" id="" class="form-control rounded" ng-options="equipment.serial_number disable when equipment.disabled for equipment in page.equipments track by equipment.id" ng-model="page.selectedEquipment" required></select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Fecha</label>
+                <div class="col-sm-8">
+	                <div class="input-group">
+										<input type="text" class="form-control rounded" uib-datepicker-popup="{{page.dateOptions.format}}" ng-model="page.limitDate" is-open="page.dateOptions.datepickerOpened" datepicker-options="page.dateOptions" show-button-bar="false"/>
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+										</span>
+									</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label" for="limitTime" style="margin-top: 35px;">Hora</label>
+                <div class="col-sm-8">
+                  <uib-timepicker id="limitTime" ng-model="page.limitTime" show-meridian="true"></uib-timepicker>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Tipo de Actividad</label>
+                <div class="col-sm-8">
+                  <select name="activityType" id="" class="form-control rounded" ng-options="activityType.name disable when activityType.disabled for activityType in page.activityTypes track by activityType.id" ng-model="page.selectedActivityType" ng-change="asd()" required></select>
+                </div>
+              </div>
+            </form>
+
+            <hr>
+						
+						<div class="text-center">
+							<button type="submit" class="btn btn-rounded btn-success" ng-click="programTask()" ng-disabled="!page.usersLoaded || !page.equipmentsLoaded || !page.activityTypesLoaded || page.forms.form1.user.$pristine || page.forms.form1.serialNumber.$pristine || page.forms.form1.activityType.$pristine">Cargar/Programar</button>
+						</div>
+						
+					</div>
+					<!-- /tile body -->
+
+				</section>
+				<!-- /tile -->
+
+			</div>
+			<!-- /col -->
+
+
+		</div>
+		<!-- /row -->
+
+
+	</div>
+	<!-- /page content -->
+
+	<script type="text/ng-template" id="summary.html">
+
+		<div class="modal-header text-gray">
+			<h3 class="text-center">Resumen</h3>
+		</div>
+
+		<div class="modal-body">
+
+			<ul>
+				<li>
+					<ng-pluralize count="modal.countCreated" when="{'0': 'No se ingresaron tareas nuevas','one': '{} tarea se ingresó','other': '{} tareas se ingresaron'}"></ng-pluralize>
+				</li>
+				<li>
+					<ng-pluralize count="modal.countChanged" when="{'0': 'No se actualizó ningún tarea','one': '{} tarea se actualizó','other': '{} tareas se actualizaron'}"></ng-pluralize>
+				</li>
+				<li>
+					<ng-pluralize count="modal.countErrors" when="{'0': 'Ningún tarea produjo error','one': '{} tarea NO se ingresó','other': '{} tareas NO se ingresaron'}"></ng-pluralize>
+				</li>
+			</ul>
+
+			<div ng-show="modal.errors.length">
+
+				<h4 class="text-center mb-20">Errores</h4>
+				<ul ng-repeat="error in modal.errors">
+					<li>
+						<p>Error en la fila {{error.rowNumber}}</p>
+						<p>Revise el campo <strong>{{error.field}}</strong></p>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+
+		<div class="modal-footer">
+			<button class="btn btn-default btn-rounded-10 mb-10" type="button" ng-click="cancel()">Cerrar</button>
+		</div>
+
+	</script>
+
+</div>

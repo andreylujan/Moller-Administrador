@@ -1,0 +1,231 @@
+<style>
+  .custom-marker {
+  }
+  .custom-marker.my1 {
+    font-size: 1.5em;
+    padding: 5px;
+    background: #fff;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: #7F7F7F solid 1px;
+  }
+
+  .custom-marker.my1:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 7px 6px 0;
+    border-color: #fff transparent;
+    display: block;
+    width: 0;
+    z-index: 1;
+    margin-left: -6px;
+    bottom: -6px;
+    left: 50%;
+  }
+
+  .custom-marker.my1:before {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 7px 6px 0;
+    border-color: #7F7F7F transparent;
+    display: block;
+    width: 0;
+    z-index: 0;
+    margin-left: -6px;
+    bottom: -7px;
+    left: 50%;
+  }
+</style>
+<div class="page page-dashboard">
+  <div class="overlay" ng-show="page.loader.show">
+    <div style="position:absolute;top: 50%;left:50%;transform: translate(-50%, -50%);">
+      <div>
+        <p><strong>Descargando archivo...</strong></p>
+        <p class="text-center">
+          <img src="images/loader.gif" alt="loader" class="size-45x45">
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pageheader">
+    <h2>{{page.title}}</h2>
+    <div class="row">
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mt-5">
+        <ui-select class="gray-ps-3 br-15 b-0" ng-model="page.filters.areas.selected" close-on-select="true" ng-change="getDashboardInfo({success:true,detail:'OK'})" title="Áreas">
+          <ui-select-match placeholder="Área"><span ng-bind="$select.selected.name"></span></ui-select-match>
+          <ui-select-choices repeat="area in page.filters.areas.list | propsFilter: {name: $select.search}">
+            <div ng-bind-html="area.name | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+      <div class="col-md-4 mt-5">
+        <ui-select class="blue-ps-2 br-15 b-0" ng-model="page.filters.status.selected" sortable="true" close-on-select="true" ng-disabled="page.filters.status.disabled" ng-change="getDashboardInfo({success:true,detail:'OK'})" title="Tiendas">
+          <ui-select-match placeholder="Estado"><span ng-bind="$select.selected.nameB | capitalize:true"></span></ui-select-match>
+          <ui-select-choices repeat="estado in page.filters.status.list | propsFilter: {name: $select.search}">
+            <div ng-bind-html="estado.nameB | highlight: $select.search | capitalize:true"></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+      <div class="col-md-4 mt-5">
+        <div class="gray-ps-1 br-15 b-0">
+          <input style="cursor:pointer;" id="daterangeDashGoals2" date-range-picker class="bg-gray-ps-1 br-15 text-sm form-control b-0n date-picker" type="text" ng-model="page.filters.dateRange.date" options="page.filters.dateRange.options" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <section class="tile" >
+        <div class="tile-header dvd dvd-btm">
+          <h1 class="custom-font"><strong>Cumplimiento de hallazgos</strong></h1>
+        </div>
+        <div class="tile-widget">
+          <highchart config="charCumplimientoHallazgos" ng-show="charCumplimientoHallazgos.data.length"></highchart>
+          <h3 class="text-orange-ps text-center" ng-show="!charCumplimientoHallazgos.data.length">No se encontraron datos</h3>
+        </div>
+      </section>
+    </div>
+    <div class="col-md-6">
+      <section class="tile">
+        <div class="tile-header dvd dvd-btm">
+          <h2 class="custom-font"><strong>Ratio de hallazgos /</strong> Hallazgos pendientes/totales</h2>
+        </div>
+        <div class="tile-widget">
+          <highchart config="ratioHallazgos" ng-show="ratioHallazgosShow"></highchart>
+          <h3 class="text-orange-ps text-center" ng-show="!ratioHallazgosShow">No se encontraron datos</h3>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <section class="tile" >
+        <div class="tile-header dvd dvd-btm">
+          <h1 class="custom-font"><strong>Mapa de hallazgos</strong></h1>
+        </div>
+        <div class="tile-widget">
+          <ng-map>
+              <kml-layer url="https://ddejhenv4m3e3.cloudfront.net/manflas/doc.kml">
+              </kml-layer>
+              <custom-marker ng-repeat="cuartel in page.filters.cuarteles.list" position="{{cuartel.coordenadas[1]}},{{cuartel.coordenadas[0]}}"
+                  on-click="click(cuartel)">
+                  <div class="my1"><div>{{cuartel.num_reports}}</div> </div>
+                </custom-marker>
+          </ng-map>
+
+          <table ng-table="tableParams" show-filter="true" class="table table-custom">
+            <thead>
+              <tr>
+                <th ng-repeat="column in columns2" class="text-center"> {{column.title}} </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr ng-repeat="inspection in $data | filter: filtro">
+                <td ng-repeat="column in columns2">
+                  {{inspection[column.field_a]}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+          <h3 class="text-orange-ps text-center" ng-show="!mostrarTabla.length">No se encontraron datos</h3>
+        </div>
+      </section>
+    </div>
+  </div>
+
+
+  <!--script type="text/javascript">
+    function initMap() {
+      var unchecked = $('[ng-controller="GenericDashboardCtrl"]').scope().page.markers.unchecked;
+      var resolved = $('[ng-controller="GenericDashboardCtrl"]').scope().page.markers.resolved;
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: {lat: resolved[0].latitude, lng: resolved[0].longitude}
+        });
+
+        for (var i = 0; i < resolved.length; i++) {
+          var marker = new google.maps.Marker({
+            position: {lat: resolved[i].latitude, lng: resolved[i].longitude},
+            map: map,
+            icon: 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png',
+          });
+        }
+
+        for (var i = 0; i < unchecked.length; i++) {
+          var marker = new google.maps.Marker({
+            position: {lat: unchecked[i].latitude, lng: unchecked[i].longitude},
+            map: map,
+            icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+          });
+        }
+    }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeMiZrkpaj6XAx42DEBRz6vDxU5GKjekk&callback=initMap" type="text/javascript"></script-->
+
+  <script type="text/ng-template" id="imagesTmpl.html">
+    <a ng-href="{{image.src}}" target="_blank"><img src="{{image.src}}" alt="pic" style="width:100%"></a>
+  </script>
+
+  <script type="text/ng-template" id="viewAllShareOfSalesModal.html">
+    <div class="modal-body text-gray">
+
+      <div class="alert alert-{{modal.alert.color}}" ng-show="modal.alert.show"> <h4 class="text-md"><strong>{{modal.alert.title}}</strong></h4> {{modal.alert.text}} </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div ng-repeat="zone in modal.tableShareOfSalesAll">
+            <table class="table table-borderless table-condensed mt-10" >
+              <thead>
+                <tr>
+                  <th style="width:50%">{{zone.name | capitalize:true}}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="company in zone.sales_by_company">
+                  <td>{{company.name}}</td>
+                  <td class="text-orange-ps">{{company.sales_amount | currency:'$ ':0}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <hr>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancelRecit btn-rounded-10 mb-10" type="button" ng-click="cancel()">Cerrar</button>
+    </div>
+  </script>
+
+  <script type="text/ng-template" id="messageModal.html">
+
+    <div class="modal-header text-gray">
+      <h3 class="text-center">{{modal.title}}</h3>
+    </div>
+
+    <div class="modal-body text-center">
+
+      <h4>{{modal.text}}</h4>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-default btn-rounded-10 mb-10" type="button" ng-click="cancel()">Cerrar</button>
+    </div>
+
+  </script>
+</div>

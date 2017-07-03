@@ -1,0 +1,41 @@
+<div class="page page-core page-login">
+
+	<div class="text-center"><img class="size-80x80" src="images/echeckit-logo.png" alt="echeckit_logo"></div>
+	<div class="text-center"><h3 class="text-light text-white">e - Retail</div>
+
+	<div class="container w-420 p-20 bg-blue-ps bright mt-40 text-center br-25">
+
+
+		<h2 class="text-light text-black">Reestablecer contraseña</h2>
+
+		<h4 class="text-light text-{{page.msg.color}} " ng-show="page.msg.show"> {{page.msg.text}} </h4>
+		<a class="text-center" style="color: #f19122" ui-sref="core.login" ng-show="page.anchor.show">{{page.anchor.text}}</a>
+
+		<form name="form" class="form-validation mt-20" novalidate>
+
+			<p class="help-block text-left">
+				 Ingresa el código que se indica en el correo.
+			</p>
+
+			<div class="form-group">
+			 <input type="text" class="form-control rounded" placeholder="Código..." ng-model="user.token.text" ng-change="removeMsg()"  ng-disabled="user.token.disabled" required>
+			</div>
+
+			<div class="form-group">
+			 <input type="password" class="form-control rounded" placeholder="Nueva contraseña..." ng-model="user.password.text" ng-change="removeMsg()"  ng-disabled="user.password.disabled" required>
+			</div>
+
+			<div class="form-group">
+			 <input type="password" class="form-control rounded" placeholder="Repita nueva contraseña..." ng-model="user.passwordConfirmation.text" ng-change="removeMsg()" ng-disabled="user.passwordConfirmation.disabled" required>
+			</div>
+
+
+		</form>
+
+		<div class="form-group text-center mt-20">
+			<button type="submit" class="btn btn-orange-ps b-0 br-20 mr-5 text-md pl-20 pr-20" ng-click="validateToken()" ng-disabled='form.$invalid || page.reestablishBtn.disabled'>Reestablecer</button>
+		</div>
+
+	</div>
+
+</div>

@@ -1,0 +1,82 @@
+<div class="page">
+
+	<!-- page header -->
+	<div class="pageheader">
+
+		<h2>{{page.title}} <span></span></h2>
+
+		<div class="page-bar">
+
+			<ul class="page-breadcrumb">
+				<li>
+          <a ui-sref="efinding.dashboard.generic"> {{main.title}}</a>
+        </li>
+				<li>
+					<a href="javascript:;">Maestros</a>
+				</li>
+				<li>
+					<a ui-sref="app.playStation.reports">{{page.title}}</a>
+				</li>
+			</ul>
+
+		</div>
+
+	</div>
+	<!-- /page header -->
+
+	<!-- page content -->
+	<div class="pagecontent">
+
+		<!-- row -->
+		<div class="row">
+
+			<!-- col -->
+			<div class="col-md-12">
+
+
+				<!-- tile -->
+				<section class="tile" fullscreen="isFullscreen06">
+
+					<!-- tile header -->
+					<!-- /tile header -->
+
+					<!-- tile body -->
+					<div class="tile-body">
+
+						<table ng-table="tableParams" show-filter="true" class="table table-custom">
+							<tr ng-repeat="load in $data">
+								<td data-title="'Fecha carga'" sortable="'createdAt'" filter="{ 'createdAt': 'text' }">
+									{{load.createdAt | date:'dd/MM/yyyy hh:mm'}}
+								</td>
+								<td data-title="'Tipo de carga'" sortable="'uploadedResourceType'" filter="{ 'uploadedResourceType': 'text' }">
+									{{load.uploadedResourceType}}
+								</td>
+								<td data-title="'Usuario'" sortable="'user_name'" filter="{ 'user_name': 'text' }">
+									{{load.user_name | capitalize:true}}
+								</td>
+								<td class="text-center"  data-title="'Archivo cargado'" sortable="'load.uploadedFileUrl'">
+									<a ng-href="{{load.uploadedFileUrl}}" target="_blank" uib-tooltip="Descargar archivo cargado" rel="noopener noreferrer" download="file.csv"><img src="https://s3-sa-east-1.amazonaws.com/efinding/icons/abajo.png"></a>
+								</td>
+								<td  class="text-center" data-title="'Archivo resultado'" sortable="'load.resultFileUrl'">
+									<a ng-href="{{load.resultFileUrl}}" target="_blank" uib-tooltip="Descargar archivo resultado" rel="noopener noreferrer" download="file.csv"><img src="https://s3-sa-east-1.amazonaws.com/efinding/icons/NUBE_VERDE_DOWN-02.png"></a>
+								</td>
+							</tr>
+						</table>
+
+					</div>
+					<!-- /tile body -->
+
+				</section>
+				<!-- /tile -->
+
+			</div>
+			<!-- /col -->
+
+
+		</div>
+		<!-- /row -->
+
+
+	</div>
+	<!-- /page content -->
+</div>

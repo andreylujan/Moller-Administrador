@@ -1,0 +1,99 @@
+<div class="page page-core page-login">
+<style type="text/css">
+    .center-block {
+    width:250px;
+    padding:10px;
+    color:#ec8007
+    }
+</style>
+
+  <div class="container">
+    <div class="row">
+      <div class="center-block">
+        <img class="size-80x80" style="float: left;" src="images/efinding_logo.png">
+        <h3 class="text-bold text-white" style="margin-left: 100px;" >eFinding
+      </div>
+    </div>
+  </div>
+
+<!-- Ingreso mail -->
+  <div class="container w-420 p-20 bg-blue-ps bright mt-40 text-center br-25" ng-show="!user.email.disabled">
+
+
+    <h2 class="text-light text-black">¿Olvidaste tu contraseña?</h2>
+
+    <h4 class="text-light text-{{page.msg.color}} text-justify" ng-show="page.msg.show"> {{page.msg.text}}</h4>
+
+    <form name="form" class="form-validation mt-20" novalidate>
+
+      <p class="help-block text-left">
+         Ingresa tu correo para recibir el correo con instrucciones.
+      </p>
+
+      <div class="form-group">
+       <input type="email" class="form-control rounded" placeholder="Email de usuario..." ng-model="user.email.text" ng-change="removeMsg()" ng-disabled="user.email.disabled" required>
+      </div>
+
+    </form>
+
+    <div class="form-group text-center mt-20">
+      <button type="submit" class="btn bg-orange-ps b-0 br-20 mr-5 text-md pl-20 pr-20" ng-click="sendPassToken()" ng-disabled='form.$invalid || page.sendBtn.disabled'>Enviar</button>
+    </div>
+
+  </div>
+
+<!-- Ingreso Codigo -->
+  <div class="container w-420 p-20 bg-blue-ps bright mt-40 text-center br-25" ng-show="!user.codigo.disabled">
+
+
+    <h2 class="text-light text-black">¿Olvidaste tu contraseña?</h2>
+
+    <h4 class="text-light text-justify" ng-show="page.msg.show" style="color: #f19122"> {{page.msg.text}}</h4>
+
+    <form name="formularioCodigo" class="form-validation mt-20" novalidate>
+
+      <p class="help-block text-left">
+         Ingresa el código que enviamos a tu correo para cambiar tu contraseña.
+      </p>
+
+      <div class="form-group">
+       <input type="text" class="form-control rounded" placeholder="Código..." ng-model="user.codigo.text" ng-change="removeMsg()" ng-disabled="user.codigo.disabled" required>
+      </div>
+
+    </form>
+
+    <div class="form-group text-center mt-20">
+      <button type="submit" class="btn bg-orange-ps b-0 br-20 mr-5 text-md pl-20 pr-20" ng-click="validacodigo()" ng-disabled='form.$invalid || user.codigo.disabled'>Enviar</button>
+    </div>
+
+  </div>
+<!-- Ingreso password -->
+  <div class="container w-420 p-20 bg-blue-ps bright mt-40 text-center br-25" ng-show="!user.pass.disabled">
+
+
+    <h2 class="text-light text-black">¿Olvidaste tu contraseña?</h2>
+
+    <h4 class="text-light text-{{page.msg.color}} text-justify" ng-show="page.msg.show"> {{page.msg.text}}</h4>
+
+    <form name="formularioCodigo" class="form-validation mt-20" novalidate>
+
+      <p class="help-block text-left">
+         Ingresa tu nueva contraseña
+      </p>
+
+      <div class="form-group">
+        <input type="password" class="form-control rounded" placeholder="Contraseña..." ng-model="user.pass.text1" ng-change="removeMsg()" required>
+       </div>
+       <div class="form-group">
+        <input type="password" class="form-control rounded" placeholder="Repetir contraseña..." ng-model="user.pass.text2" ng-change="removeMsg()" required>
+      </div>
+
+    </form>
+
+    <div class="form-group text-center mt-20">
+      <button type="submit" class="btn bg-orange-ps b-0 br-20 mr-5 text-md pl-20 pr-20" ng-click="cambiaContrasena()" ng-disabled='form.$invalid || user.pass.disabled'>Enviar</button>
+    </div>
+
+  </div>
+
+</div>

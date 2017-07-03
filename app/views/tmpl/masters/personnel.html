@@ -1,0 +1,223 @@
+<div class="page">
+
+	<!-- page header -->
+	<div class="pageheader">
+
+		<h2>{{page.title}} <span></span></h2>
+
+		<div class="page-bar">
+
+			<ul class="page-breadcrumb">
+				<li>
+          <a ui-sref="efinding.dashboard.generic"> {{main.title}}</a>
+        </li>
+				<li>
+					<a href="javascript:;">Maestros</a>
+				</li>
+				<li>
+					<a ui-sref="app.playStation.reports">{{page.title}}</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!-- /page header -->
+	<!-- page content -->
+	<div class="pagecontent">
+		<!-- row -->
+		<div class="row">
+			<!-- col -->
+			<div class="col-md-12">
+				<!-- tile -->
+				<section class="tile" fullscreen="isFullscreen06">
+					<!-- tile body -->
+					<div class="tile-body">
+						<div class="row">
+							<div class="col-md-1">
+								<button class="btn btn-default" ng-click="openModalNewPersonnel()">Nuevo</button>
+							</div>
+							<!--div class="col-md-1">
+								<a id="downloadExcel" ng-click="getExcel({success:true,detail:'OK'})" uib-tooltip="Descargar Excel">
+									<img src="https://s3-sa-east-1.amazonaws.com/efinding/icons/abajo.png">
+								</a>
+							</div>
+							<div class="col-md-1">
+								<a id="downloadExcel" ng-click="openModalNewGeneric()" uib-tooltip="Carga Masiva">
+									<img src="https://s3-sa-east-1.amazonaws.com/efinding/icons/arriba.png">
+								</a>
+							</div-->
+						</div>
+						<table ng-table="tableParams" show-filter="true" class="table table-custom">
+							<tr ng-repeat="object in $data">
+								<td data-title="'Nombre'" sortable="'name'" filter="{ 'name': 'text' }">
+									{{object.name}}
+								</td>
+								<td data-title="'Rut'" sortable="'rut'" filter="{ 'rut': 'text' }">
+									{{object.rut}}
+								</td>
+								<td data-title="'Info'">
+                  					<img ng-click="openModalObjectDetails(object.id)" src="https://s3-sa-east-1.amazonaws.com/efinding/icons/USUARIOS_INFO.png" style="width:24px; cursor:pointer" tooltip="Más info">
+                				</td>
+							</tr>
+						</table>
+					</div>
+					<!-- /tile body -->
+				</section>
+				<!-- /tile -->
+			</div>
+			<!-- /col -->
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /page content -->
+	<script type="text/ng-template" id="newPersonnel.html">
+		<div class="modal-header text-gray">
+      		<h3 class="text-center">{{page.title}}</h3>
+    	</div>
+	    <div class="modal-body text-gray">
+	      <div class="row">
+	        <div class="col-md-12">
+	        	<h4 class="text-center">Carga manual</h4>
+	        	<div class="alert alert-{{modal.alert.color}}" ng-show="modal.alert.show"> <h4 class="text-md"><strong>{{modal.alert.title}}</strong></h4> {{modal.alert.text}} </div>
+
+	          	<form name="form" class="form-validation form-horizontal" role="form" novalidate>
+		            <div class="form-group">
+		              <label for="type" class="col-sm-3 control-label">Nombre</label>
+		              <div class="col-md-8">
+		                <input type="text" id="type" class="form-control underline-input" placeholder="Nombre..." ng-model="personnel.name" ng-change="hideAlert()" required>
+		              </div>
+		            </div>
+		            <div class="form-group">
+		              <label for="type" class="col-sm-3 control-label">Rut</label>
+		              <div class="col-md-8">
+		                <input type="text" id="type" class="form-control underline-input" placeholder="Rut..." ng-model="personnel.rut" ng-change="hideAlert()" required>
+		              </div>
+		            </div>
+		            <div class="form-group" ng-show="types.visible">
+		  				<label for="inputPassword3" class="col-sm-3 control-label">Cargo en la obra </label>
+		  				<div class="col-sm-8">
+		  					<ui-select class="bg-white b-solid br-15" ng-model="types.selectedType" close-on-select="true">
+		  						<ui-select-match placeholder="Buscar..." class="unstyled-placeholder">{{$select.selected.name}}</ui-select-match>
+		  						<ui-select-choices repeat="type in types.data track by type.name | propsFilter: {name: $select.search}" refresh-delay="200">
+		  							<div ng-bind-html="type.name"></div>
+		  						</ui-select-choices>
+		  					</ui-select>
+		  				</div>
+		  			</div>
+		        </form>
+	        </div>
+	      </div>
+	    </div>
+	    <div class="modal-footer">
+	    	<button class="btn btn-success br-20 pl-20 pr-20" type="submit" ng-click="savePersonnel()">Cargar/Guardar</button>
+	      <button class="btn btn-default br-20 pl-20 pr-20" type="button" ng-click="cancel()" >Cerrar</button>
+	    </div>
+  </script>
+
+
+  <script type="text/ng-template" id="personnelDetails.html">
+    <div class="modal-header text-gray">
+      <h3 class="text-center">{{elements.title}}</h3>
+    </div>
+    <div class="modal-body text-gray">
+      <div class="alert alert-{{elements.alert.color}}" ng-show="elements.alert.show"> <h4 class="text-md"><strong>{{elements.alert.title}}</strong></h4> {{elements.alert.text}} </div>
+      <div class="row">
+        <div class="col-md-11">
+          <form name="form" class="form-validation form-horizontal" role="form" novalidate>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Nombre</label>
+              <div class="col-md-8">
+                <input type="text" id="name" class="form-control underline-input" placeholder="Nombre" ng-model="personnel.name.text" ng-change="hideAlert()" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Rut</label>
+              <div class="col-md-8">
+                <input type="text" id="name" class="form-control underline-input" placeholder="Rut" ng-model="personnel.rut.text" ng-change="hideAlert()" required>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+    	<button class="btn btn-danger btn-rounded-10 {{elements.buttons.removeUser.border}} mb-10" type="button" ng-click="removeGeneric(personnel.id)" >{{elements.buttons.removeUser.text}}</button>
+      	<button class="btn btn-warning btn-rounded-10 {{elements.buttons.editUser.border}} mb-10" type="button" ng-click="editGeneric(personnel.id)" >{{elements.buttons.editUser.text}}</button>
+      	<button class="btn btn-cancelRecit btn-rounded-10 mb-10" type="button" ng-click="cancel()">Cerrar</button>
+    </div>
+  </script>
+
+
+  <!--script type="text/ng-template" id="newGenericMasive.html">
+
+		<div class="overlay br-30" ng-show="modal.overlay.show">
+			<div style="position:absolute;top: 50%;left:50%;transform: translate(-50%, -50%);">
+				<div>
+					<p><strong>Subiendo el archivo...</strong></p>
+					<p class="text-center">
+					<img src="images/loader.gif" alt="loader" class="size-45x45">
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="modal-header text-gray">
+			<h3 class="text-center">Carga masiva (csv)</h3>
+		</div>
+
+		<div class="modal-body text-gray">
+		<div class="alert alert-{{modal.alert.color}}" ng-show="modal.alert.show"> <h4 class="text-md"><strong>{{modal.alert.title}}</strong></h4> {{modal.alert.text}} </div>
+			<div class="row">
+				<div class="col-md-12">
+					<form name="form" novalidate>
+						<input name="csvFile" type="file" class="form-control rounded" file-model="modal.csvFile" accept=".xls,.xlsx,.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" ng-model="modal.csvFile" valid-file required>
+					</form>
+				</div>
+			</div>
+			<hr>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-success br-20 pl-20 pr-20" type="submit" ng-click="save()" ng-disabled="modal.btns.chargeSave.disabled || form.$invalid ">Cargar/Guardar</button>
+			<button class="btn btn-default br-20 pl-20 pr-20" type="button" ng-click="cancel()" >Cerrar</button>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="summary.html">
+
+		<div class="modal-header text-gray">
+			<h3 class="text-center">Resumen</h3>
+		</div>
+
+		<div class="modal-body">
+
+			<ul>
+
+				<li>
+					<ng-pluralize count="modal.countCreated" when="{'0': 'No se ingresaron equipos nuevos','one': '{} equipo se ingresó','other': '{} se ingresaron'}"></ng-pluralize>
+				</li>
+				<li>
+					<ng-pluralize count="modal.countChanged" when="{'0': 'No se actualizó ningún equipo','one': '{} equipo se actualizó','other': '{} se actualizaron'}"></ng-pluralize>
+				</li>
+				<li>
+					<ng-pluralize count="modal.countErrors" when="{'0': 'Ningún equipo produjo error','one': '{} equipo NO se ingresó','other': '{} NO se ingresaron'}"></ng-pluralize>
+				</li>
+			</ul>
+
+			<div ng-show="modal.errors.length">
+
+				<h4 class="text-center mb-20">Errores</h4>
+				<ul ng-repeat="error in modal.errors">
+					<li>
+						<p>Error en la fila {{error.rowNumber}}</p>
+						<p>Revise el campo <strong>{{error.field}}</strong></p>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+
+		<div class="modal-footer">
+			<button class="btn btn-default btn-rounded-10 mb-10" type="button" ng-click="cancel()">Cerrar</button>
+		</div>
+
+	</script-->
+
+</div>

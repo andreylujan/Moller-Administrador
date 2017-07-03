@@ -1,0 +1,150 @@
+<div class="page">
+
+	<!-- page header -->
+	<div class="pageheader" id="pageHeader">
+
+		<h2>{{page.title}} <span></span></h2>
+
+		<div class="page-bar">
+
+			<ul class="page-breadcrumb">
+				<li>
+          <a ui-sref="efinding.dashboard.generic"> {{main.title}}</a>
+        </li>
+				<li>
+					<a href="javascript:;">Reportes</a>
+				</li>
+				<li>
+					<a ui-sref="app.playStation.reports">{{page.title}}</a>
+				</li>
+			</ul>
+
+		</div>
+
+	</div>
+	<!-- /page header -->
+
+	<!-- page content -->
+	<div class="pagecontent">
+
+		<!-- row -->
+		<div class="row">
+
+			<!-- col -->
+			<div class="col-md-6 col-md-offset-3">
+
+
+				<!-- tile -->
+				<section class="tile" fullscreen="isFullscreen06">
+
+					<!-- tile header -->
+					<div class="tile-header dvd dvd-btm">
+						<h1 class="custom-font"></h1>
+						<ul class="controls">
+							<li class="dropdown" dropdown on-toggle="toggled(open)">
+
+								<a href dropdown-toggle class="dropdown-toggle settings"><i class="fa fa-cog"></i></a>
+
+								<ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
+									<li>
+										<a href tile-control-toggle>
+											<span class="minimize"><fa name="angle-down"></fa>&nbsp;&nbsp;&nbsp;Minimizar</span>
+											<span class="expand"><fa name="angle-up"></fa>&nbsp;&nbsp;&nbsp;Maximizar</span>
+										</a>
+									</li>
+									<li>
+										<a href>
+											<fa name="refresh"></fa> Refrescar
+										</a>
+									</li>
+									<li>
+										<a href tile-control-fullscreen ng-click="isFullscreen06 = !isFullscreen06">
+											<fa name="expand"></fa> Pantalla completa
+										</a>
+									</li>
+
+								</ul>
+
+							</li>
+							<li class="remove"><a href tile-control-close><i class="fa fa-times"></i></a></li>
+						</ul>
+					</div>
+					<!-- /tile header -->
+
+					<!-- tile body -->
+					<div class="tile-body">
+
+						<div class="alert alert-{{page.alert.color}} alert-dismissable" ng-show="page.alert.show">
+							<strong>{{page.alert.title}}</strong> {{page.alert.subtitle}}
+						</div>
+
+						<form class="form-horizontal" role="form" name="form">
+							<h4 class="text-center">Carga masiva</h4>
+							<div class="form-group">
+								<div class="col-sm-12">
+									<input type="file" class="form-control rounded" file-model="page.csvFile" accept=".xls,.xlsx,.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" ng-model="page.csvFile" valid-file required>
+								</div>
+							</div>
+						</form>
+
+						<hr>
+						
+						<div class="text-center">
+							<button type="submit" class="btn btn-rounded btn-success" ng-click="massiveLoad()" ng-disabled="form.$invalid">Cargar/Programar</button>
+						</div>
+						
+					</div>
+					<!-- /tile body -->
+
+				</section>
+				<!-- /tile -->
+
+			</div>
+			<!-- /col -->
+
+
+		</div>
+		<!-- /row -->
+
+
+	</div>
+	<!-- /page content -->
+
+	<script type="text/ng-template" id="summaryLoadTasks.html">
+		<div class="modal-header text-gray">
+			<h3 class="text-center">Resumen</h3>
+		</div>
+
+		<div class="modal-body">
+
+			<ul>
+				<li>
+					<ng-pluralize count="modal.countCreated" when="{'0': 'No se ingresaron tareas nuevas','one': '{} tarea se ingresó','other': '{} tareas se ingresaron'}"></ng-pluralize>
+				</li>
+				<li>
+					<ng-pluralize count="modal.countChanged" when="{'0': 'No se actualizó ningún tarea','one': '{} tarea se actualizó','other': '{} tareas se actualizaron'}"></ng-pluralize>
+				</li>
+				<li>
+					<ng-pluralize count="modal.countErrors" when="{'0': 'Ningún tarea produjo error','one': '{} tarea NO se ingresó','other': '{} tareas NO se ingresaron'}"></ng-pluralize>
+				</li>
+			</ul>
+
+			<div ng-show="modal.errors.length">
+
+				<h4 class="text-center mb-20">Errores</h4>
+				<ul ng-repeat="error in modal.errors">
+					<li>
+						<p>Error en la fila {{error.rowNumber}}</p>
+						<p>Revise el campo <strong>{{error.field}}</strong></p>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+
+		<div class="modal-footer">
+			<button class="btn btn-default btn-rounded-10 mb-10" type="button" ng-click="cancel()">Cerrar</button>
+		</div>
+	</script>
+
+</div>

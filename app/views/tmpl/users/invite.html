@@ -1,0 +1,152 @@
+<div class="page">
+
+	<!-- page header -->
+	<div class="pageheader">
+
+		<h2>{{page.title}} <span></span></h2>
+
+		<div class="page-bar">
+
+			<ul class="page-breadcrumb">
+				<li>
+          <a ui-sref="efinding.dashboard.generic"> {{main.title}}</a>
+        </li>
+				<li>
+					<a href="javascript:;">Usuarios</a>
+				</li>
+				<li>
+					<a ui-sref="app.playStation.reports">{{page.title}}</a>
+				</li>
+			</ul>
+
+		</div>
+
+	</div>
+	<!-- /page header -->
+
+	<!-- page content -->
+	<div class="pagecontent">
+
+		<!-- row -->
+		<div class="row">
+
+			<!-- col -->
+			<div class="col-md-12">
+
+
+				<!-- tile -->
+				<section class="tile" fullscreen="isFullscreen06">
+					<!-- tile body -->
+					<div class="tile-body">
+
+						<div class="container w-420 p-20 bg-blue-ps-3 mt-40 text-center br-25" style="background-color: #FDE0C0">
+							<h2 class="text-light text-black">{{page.title}}</h2>
+
+							<h4 class="text-black">Ingresa el mail de los usuarios que quieres invitar. Puede ser más de uno</h4>
+
+							<h3 class="text-light text-red" ng-show="page.msg.show"> {{page.msg.text}}</h3>
+							<div class="col-md-12">
+								<ul class="list-unstyled">
+									<li><p ng-repeat="email in responseInvitations"><fa name="{{email.icon}}"></fa> {{email.email}}</p></li>
+								</ul>
+								<form class="form-horizontal form-validation" name="form" novalidate>
+									<div class="form-group" ng-repeat="formGroup in page.formGroups.invite">
+										<div class="col-sm-12">
+											<input class="form-control rounded" type="email" placeholder="Email de usuario..." ng-model="formGroup.email" ng-change="validateMailAndRol({{formGroup.index}})" required>
+											<div style="display: inline-block">
+												<label class="checkbox checkbox-custom-alt text-black" style="display: inline-block; padding-right: 7px" ng-repeat="role in roles"> <input type="radio" value="{{role.id}}" name="{{formGroup.index}}" ng-model="formGroup.roleId" ng-change="validateMailAndRol({{formGroup.index}})" required><i></i> {{role.name}} </label>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-11" >
+										<button class="btn btn-green-ps br-20 text-md pl-20 pr-20" type="submit" ng-disabled="form.$invalid" ng-click="sendInvitations({success: true,detail: 'OK'})">Enviar</button>	
+										<!--button class="bg-green-1-generic pt-7 pb-7 pr-12 pl-12 br-15 b-0 text-white ml-20 mb-10" ng-click="openModalLoad()" uib-tooltip="Invitación masiva"><i class="fa fa-cloud-upload"></i></button-->
+									</div>				
+								</form>
+							</div>
+						</div>
+
+					</div>
+					<!-- /tile body -->
+
+				</section>
+				<!-- /tile -->
+
+			</div>
+			<!-- /col -->
+
+
+		</div>
+		<!-- /row -->
+
+
+	</div>
+	<!-- /page content -->
+	<script type="text/ng-template" id="loadCategories.html">
+
+		<div class="modal-header text-gray">
+			<h3 class="text-center">Invitar usuarios</h3>
+		</div>
+
+		<div class="modal-body text-gray">
+
+			<div class="row">
+				<div class="col-md-12">
+					<h4 class="text-center">Carga masiva por csv</h4>
+
+					<form name="form" class="form-validation form-horizontal" role="form" novalidate>
+						<div class="form-group">
+							<div class="col-md-12">
+								<input type="file" class="form-control rounded" file-model="modal.csvFile" ng-model="modal.csvFile" accept=".xls,.xlsx,.csv,.txt" required>
+							</div>
+						</div>
+					</form>
+
+				</div>
+			</div>
+
+			<!-- <hr> -->
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-success br-20 pl-20 pr-20" type="submit" ng-disabled="form.$invalid || modal.buttons.load.disabled" ng-click="loadCategories()">{{modal.buttons.load.text}}</button>
+			<button class="btn btn-default br-20 pl-20 pr-20" type="button" ng-click="cancel()" >Cerrar</button>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="summary.html">
+
+		<div class="modal-header text-gray">
+			<h3 class="text-center">Resumen</h3>
+		</div>
+
+		<div class="modal-body">
+
+			<div ng-show="modal.errors.length">
+				<h4 class="text-center mb-20">No enviados</h4>
+				<ul ng-repeat="error in modal.errors">
+					<li>
+						<p>{{error.email}}</p>
+						<p>Error en la fila {{error.rowNumber}}</p>
+						<p>Revise el campo <strong>{{error.field}}</strong></p>
+					</li>
+				</ul>
+
+				<hr>
+			</div>
+
+			<h4 class="text-center mb-20">Enviados</h4>
+			<ul ng-repeat="success in modal.successes">
+				<li>
+					<p>{{success.email}}</p>
+				</li>
+			</ul>
+
+		</div>
+
+		<div class="modal-footer">
+			<button class="btn btn-default btn-rounded-10 mb-10" type="button" ng-click="cancel()">Cerrar</button>
+		</div>
+
+	</script>
+
+</div>

@@ -1,0 +1,88 @@
+<div class="page page-ng-table">
+
+
+
+
+  <!-- page header -->
+  <div class="pageheader">
+
+    <h2>{{page.title}} <span></span></h2>
+
+    <div class="page-bar">
+
+      <ul class="page-breadcrumb">
+        <li>
+          <a ui-sref="efinding.dashboard.generic"> {{main.title}}</a>
+        </li>
+        <li>
+          <a href="javascript:;">Maestros</a>
+        </li>
+        <li>
+          <a ui-sref="app.users.list">{{page.title}}</a>
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+  <!-- /page header -->
+
+  <!-- page content -->
+  <div class="pagecontent">
+
+    <!-- row -->
+    <div class="row">
+
+      <!-- col -->
+      <div class="col-md-12">
+
+
+        <!-- tile -->
+        <section class="tile" fullscreen="isFullscreen06">
+
+          <!-- tile body -->
+          <div class="tile-body">
+            <table ng-table="tableParams" show-filter="true" class="table table-custom">
+              <tr ng-repeat="rol in $data">
+                <td data-title="'Nombre'" sortable="'name'" filter="{ 'name': 'text' }">
+                  {{rol.name}}
+                </td>
+                <td data-title="'Editar'">
+                  <img ng-click="goToEditRol(rol.id)" ng-src="https://s3-sa-east-1.amazonaws.com/efinding/icons/CHECKLIST_EDITAR.png" style="width:24px; cursor:pointer" uib-tooltip="Editar permisos {{rol.name}}">
+                </td>
+              </tr>
+            </table>
+
+        </div>
+        <!-- /tile body -->
+
+      </section>
+      <!-- /tile -->
+
+    </div>
+    <!-- /col -->
+
+
+  </div>
+  <!-- /row -->
+
+
+
+
+
+</div>
+<!-- /page content -->
+
+<script type="text/ng-template" id="messageListChecklist.html">
+  <div class="modal-body text-gray text-center">
+    <img class="img-responsive center-block" src="images/delete.png" width="50" alt="delete_img">
+    <h3>¿Seguro que deseas eliminar este checklist?</h3>
+    <p>Al eliminar un checklist, se perderá toda la información contenida en éste. Verifica si quieres eliminar este checklist</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-rounded-10 mb-10" ng-class="{'btn-border': modal.buttons.delete.border}" type="button" ng-show="modal.buttons.delete.show" ng-click="deleteChecklist({success: true,detail: 'OK'})" >{{modal.buttons.delete.text}}</button>    
+    <button class="btn btn-cancelRecit btn-rounded-10 mb-10" type="button" ng-click="cancel()">Cerrar</button>
+  </div>
+</script>
+
+</div>

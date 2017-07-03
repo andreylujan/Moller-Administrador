@@ -1,0 +1,88 @@
+<div id="sidebar-wrap" ng-controller="NavCtrl">
+
+<!--   <uib-accordion close-others="oneAtTime">
+    <uib-accordion-group is-open="status.isFirstOpen" nav-collapse>
+
+      <uib-accordion-heading>
+        <div class="info-account">
+          Menú <i class="fa" ng-class="{'fa-angle-up': status.isFirstOpen, 'fa-angle-down': !status.isFirstOpen}"></i>
+        </div>
+      </uib-accordion-heading>
+
+      <ul id="navigation" ripple>
+        <li ui-sref-active="active" ng-class="{'open':$state.includes('echeckit.dashboard')}">
+          <a ui-sref="echeckit.dashboard"><fa name="dashboard"></fa> <span>Dashboard</span></a>
+          <ul>
+            <li ui-sref-active="active"><a ui-sref="echeckit.dashboard.generic"><fa name="caret-right"></fa> Dashboard</a></li>
+          </ul>
+        </li>
+        <li ui-sref-active="active" ng-class="{'open':$state.includes('echeckit.users')}">
+          <a ui-sref="echeckit.users"><fa name="user"></fa> <span>Usuarios</span></a>
+          <ul>
+            <li ui-sref-active="active"><a ui-sref="echeckit.users.invite"><fa name="caret-right"></fa> Invitar</a></li>
+            <li ui-sref-active="active"><a ui-sref="echeckit.users.list"><fa name="caret-right"></fa> Lista</a></li>
+          </ul>
+        </li>
+        <li ui-sref-active="active" ng-class="{'open':$state.includes('echeckit.reports')}">
+          <a ui-sref="echeckit.reports"><fa name="file-text-o"></fa> <span>Reportes</span></a>
+          <ul>
+            <li ui-sref-active="active"><a ui-sref="echeckit.reports.list"><fa name="caret-right"></fa> Lista</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="echeckit.tasks"><fa name="tasks"></fa> <span>Tareas</span></a>
+          <ul>
+            <li ui-sref-active="active"><a ui-sref="echeckit.tasks.massive-load"><fa name="caret-right"></fa> Carga masiva</a></li>
+            <li ui-sref-active="active"><a ui-sref="echeckit.tasks.manual-load"><fa name="caret-right"></fa> Carga manual</a></li>
+          </ul>
+        </li>
+        <li ui-sref-active="active" ng-class="{'open':$state.includes('echeckit.masters')}">
+          <a ui-sref="echeckit.masters"><fa name="university"></fa> <span>Maestros</span></a>
+          <ul>
+            <li ui-sref-active="active"><a ui-sref="echeckit.masters.equipments"><fa name="caret-right"></fa> Equipos (Belltech)</a></li>
+            <li ui-sref-active="active"><a ui-sref="echeckit.masters.activities"><fa name="caret-right"></fa> Actividades (Belltech)</a></li>
+            <li ui-sref-active="active"><a ui-sref="echeckit.masters.history-massive-loads"><fa name="caret-right"></fa> Historial cargas masivas</a></li>
+            <li ui-sref-active="active"><a ui-sref="echeckit.masters.categories"><fa name="caret-right"></fa> Categorías (Pausa)</a></li>
+            <li ui-sref-active="active"><a ui-sref="echeckit.masters.locations"><fa name="caret-right"></fa> Lugares (Pausa)</a></li>
+          </ul>
+        </li>
+
+
+      </ul>
+    </uib-accordion-group>
+
+  </uib-accordion> -->
+
+<uib-accordion close-others="oneAtTime" ng-if="page.menuLoaded" >
+    <uib-accordion-group is-open="true" nav-collapse>
+
+      <!--uib-accordion-heading>
+        <div class="info-account">
+          Menú <i class="fa" ng-class="{'fa-angle-up': status.isFirstOpen, 'fa-angle-down': !status.isFirstOpen}"></i>
+        </div>
+      </uib-accordion-heading-->
+
+      <ul id="navigation"  ripple>
+
+        <li ui-sref-active="active" ng-repeat="section in page.menu" ng-class="{'open':$state.includes('{{section.path}}')}" >
+          <a ui-sref="{{section.path}}"><fa name="{{section.icon}}"></fa> <span>{{section.name}}</span></a>
+          <ul>
+            <div ng-repeat="item in section.items">
+              <li ui-sref-active="active" ng-if="item.path != 'efinding.maestros.tabla'"> 
+                <a ui-sref="{{item.path}}">
+                  <fa name="caret-right"></fa> {{item.name}}
+                </a>
+              </li>
+              <li ui-sref-active="active" ng-if="item.path === 'efinding.maestros.tabla'">
+                <a ng-click="goToMaster(item.collection_id)">
+                  <fa name="caret-right"></fa> {{item.name}}
+                </a>
+              </li>
+            </div>
+          </ul>
+        </li>
+      </ul>
+    </uib-accordion-group>
+
+  </uib-accordion> 
+</div>

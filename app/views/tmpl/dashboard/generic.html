@@ -1,0 +1,219 @@
+<div class="page page-dashboard" ng-controller="GenericDashboardCtrl" data-ng-init="getDashboardInfo({success:true,detail:'OK'})">
+	<div class="overlay" ng-show="page.loader.show">
+		<div style="position:absolute;top: 50%;left:50%;transform: translate(-50%, -50%);">
+			<div>
+				<p><strong>Descargando archivo...</strong></p>
+				<p class="text-center">
+					<img src="images/loader.gif" alt="loader" class="size-45x45">
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="pageheader">
+		<h2>{{page.title}}</h2>
+		<div class="row">
+			<!--div class="col-md-12">
+				<a id="excelBtn" ng-href="" class="bg-blue-ps-2 btn-border pt-7 pb-7 pr-12 pl-12 br-10 b-0 text-white pull-right" uib-tooltip="Descargar resumen (.xlsx)" ng-click="getExcel({success:true,detail:'OK'})" ng-class="{disabled:page.buttons.getExcel.disabled,pointer:!page.buttons.getExcel.disabled}"><i class="fa fa-file-excel-o"></i> </a>
+			</div-->
+		</div>
+
+		<div class="row">
+			<div class="col-md-3 mt-5">
+				<ui-select class="gray-ps-3 br-15 b-0" ng-model="page.filters.companies.selected" close-on-select="true" ng-change="getConstructions({success:true,detail:'OK'},page.filters.companies.selected);getDashboardInfo({success:true,detail:'OK'})" title="Empresas">
+					<ui-select-match placeholder="Empresa"><span ng-bind="$select.selected.name  | capitalize:true"></span></ui-select-match>
+					<ui-select-choices repeat="company in page.filters.companies.list | propsFilter: {name: $select.search}">
+						<div ng-bind-html="company.name | highlight: $select.search | capitalize:true"></div>
+					</ui-select-choices>
+				</ui-select>
+			</div>
+			<div class="col-md-3 mt-5">
+				<ui-select class="blue-ps-1 br-15 b-0" ng-model="page.filters.constructions.selected" close-on-select="true" ng-change="getStores({success:true,detail:'OK'},page.filters.zone.selected,page.filters.constructions.selected);getDashboardInfo({success:true,detail:'OK'})" ng-disabled="page.filters.constructions.disabled" title="Dealers">
+					<ui-select-match placeholder="Obra"><span ng-bind="$select.selected.name | capitalize:true"></span></ui-select-match>
+					<ui-select-choices repeat="construction in page.filters.constructions.list | propsFilter: {name: $select.search}">
+						<div ng-bind-html="construction.name | highlight: $select.search | capitalize:true"></div>
+					</ui-select-choices>
+				</ui-select>
+			</div>
+			<div class="col-md-3 mt-5">
+				<ui-select class="blue-ps-2 br-15 b-0" ng-model="page.filters.status.selected" sortable="true" close-on-select="true" ng-disabled="page.filters.status.disabled" ng-change="getDashboardInfo({success:true,detail:'OK'})" title="Tiendas">
+					<ui-select-match placeholder="Estado"><span ng-bind="$select.selected.nameB | capitalize:true"></span></ui-select-match>
+					<ui-select-choices repeat="estado in page.filters.status.list | propsFilter: {name: $select.search}">
+						<div ng-bind-html="estado.nameB | highlight: $select.search | capitalize:true"></div>
+					</ui-select-choices>
+				</ui-select>
+			</div>
+			<div class="col-md-3 mt-5">
+				<ui-select class="gray-ps-1 br-15 b-0" ng-model="page.filters.supervisor.selected" close-on-select="true" ng-disabled="page.filters.supervisor.disabled" ng-change="getDashboardInfo({success:true,detail:'OK'})" title="Supervisores">
+					<ui-select-match placeholder="Supervisor"><span ng-bind="$select.selected.name | capitalize:true"></span></ui-select-match>
+					<ui-select-choices repeat="user in page.filters.supervisor.list | propsFilter: {name: $select.search}">
+						<div ng-bind-html="user.name | highlight: $select.search | capitalize:true"></div>
+					</ui-select-choices>
+				</ui-select>
+			</div>
+			<div class="col-md-3 mt-5">
+				<div class="gray-ps-1 br-15 b-0">
+					<input style="cursor:pointer;" id="daterangeDashGoals2" date-range-picker class="bg-gray-ps-1 br-15 text-sm form-control b-0n date-picker" type="text" ng-model="page.filters.dateRange.date" options="page.filters.dateRange.options" />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<section class="tile" fullscreen="isFullscreen01">
+				<div class="tile-header dvd dvd-btm">
+					<h1 class="custom-font"><strong>Grupo de actividad </strong></h1>
+				</div>
+				<div class="tile-widget">
+					<highchart config="page.charts.actividadVsRiesgo.chartConfig" ng-show="page.charts.actividadVsRiesgo.data.riesgo[0].data.length"></highchart>
+					<h3 class="text-orange-ps text-center" ng-show="!page.charts.actividadVsRiesgo.data.riesgo[0].data.length">No se encontraron datos</h3>
+				</div>
+			</section>
+		</div>
+
+		<div class="col-md-6">
+			<section class="tile" >
+				<div class="tile-header dvd dvd-btm">
+					<h1 class="custom-font"><strong>Cumplimiento de hallazgos</strong></h1>
+				</div>
+				<div class="tile-widget">
+					<highchart config="charCumplimientoHallazgos" ng-show="charCumplimientoHallazgos.data.length"></highchart>
+					<h3 class="text-orange-ps text-center" ng-show="!charCumplimientoHallazgos.data.length">No se encontraron datos</h3>
+				</div>
+			</section>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<section class="tile">
+				<div class="tile-header dvd dvd-btm">
+					<h2 class="custom-font"><strong>Ratio de hallazgos /</strong> Hallazgos pendientes/totales</h2>
+				</div>
+				<div class="tile-widget">
+					<highchart config="ratioHallazgos" ng-show="ratioHallazgosShow"></highchart>
+					<h3 class="text-orange-ps text-center" ng-show="!ratioHallazgosShow">No se encontraron datos</h3>
+				</div>
+			</section>
+		</div>
+		<div class="col-md-6">
+			<section class="tile" >
+				<div class="tile-header dvd dvd-btm">
+					<h1 class="custom-font"><strong>Mapa de hallazgos</strong></h1>
+				</div>
+				<div class="tile-widget">
+					<ng-map center="-33.4724728,-70.665583" zoom="10">
+					    <marker ng-repeat="resuelto in page.markers.resolved" position="{{resuelto.latitude}},{{resuelto.longitude}}"
+					      	optimized="false"
+					      	icon="https://s3-sa-east-1.amazonaws.com/efinding/pins/pin_verde.png">
+					    </marker>
+					    <marker ng-repeat="unchecked in page.markers.unchecked" position="{{unchecked.latitude}},{{unchecked.longitude}}"
+					      	optimized="false"
+					      	icon="https://s3-sa-east-1.amazonaws.com/efinding/pins/pin_naranjo.png">
+					    </marker>
+					 </ng-map>
+					 <table class="table" style="width: 50%; margin: 0 auto;" ng-show="page.markers.resolved.length">
+						<tbody>
+							<tr>
+								<td class="text-center" style="border-top:0">
+									<i class="fa fa-square text-orange"></i> Pendientes
+								</td>
+								<td class="text-center" style="border-top:0">
+									<i class="fa fa-square text-green"></i> Resueltos
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<h3 class="text-orange-ps text-center" ng-show="!page.markers.resolved.length">No se encontraron datos</h3>
+				</div>
+			</section>
+		</div>
+	</div>
+
+
+	<!--script type="text/javascript">
+		function initMap() {
+			var unchecked = $('[ng-controller="GenericDashboardCtrl"]').scope().page.markers.unchecked;
+			var resolved = $('[ng-controller="GenericDashboardCtrl"]').scope().page.markers.resolved;
+
+		  	var map = new google.maps.Map(document.getElementById('map'), {
+		    	zoom: 10,
+		    	center: {lat: resolved[0].latitude, lng: resolved[0].longitude}
+		  	});
+
+		  	for (var i = 0; i < resolved.length; i++) {
+		  		var marker = new google.maps.Marker({
+			    	position: {lat: resolved[i].latitude, lng: resolved[i].longitude},
+			    	map: map,
+			    	icon: 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png',
+		  		});
+		  	}
+
+		  	for (var i = 0; i < unchecked.length; i++) {
+		  		var marker = new google.maps.Marker({
+			    	position: {lat: unchecked[i].latitude, lng: unchecked[i].longitude},
+			    	map: map,
+			    	icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+		  		});
+		  	}
+		}
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeMiZrkpaj6XAx42DEBRz6vDxU5GKjekk&callback=initMap" type="text/javascript"></script-->
+
+	<script type="text/ng-template" id="imagesTmpl.html">
+		<a ng-href="{{image.src}}" target="_blank"><img src="{{image.src}}" alt="pic" style="width:100%"></a>
+	</script>
+
+	<script type="text/ng-template" id="viewAllShareOfSalesModal.html">
+		<div class="modal-body text-gray">
+
+			<div class="alert alert-{{modal.alert.color}}" ng-show="modal.alert.show"> <h4 class="text-md"><strong>{{modal.alert.title}}</strong></h4> {{modal.alert.text}} </div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div ng-repeat="zone in modal.tableShareOfSalesAll">
+						<table class="table table-borderless table-condensed mt-10" >
+							<thead>
+								<tr>
+									<th style="width:50%">{{zone.name | capitalize:true}}</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="company in zone.sales_by_company">
+									<td>{{company.name}}</td>
+									<td class="text-orange-ps">{{company.sales_amount | currency:'$ ':0}}</td>
+								</tr>
+							</tbody>
+						</table>
+						<hr>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-cancelRecit btn-rounded-10 mb-10" type="button" ng-click="cancel()">Cerrar</button>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="messageModal.html">
+
+		<div class="modal-header text-gray">
+			<h3 class="text-center">{{modal.title}}</h3>
+		</div>
+
+		<div class="modal-body text-center">
+
+			<h4>{{modal.text}}</h4>
+
+		</div>
+
+		<div class="modal-footer">
+			<button class="btn btn-default btn-rounded-10 mb-10" type="button" ng-click="cancel()">Cerrar</button>
+		</div>
+
+	</script>
+
+
+</div>

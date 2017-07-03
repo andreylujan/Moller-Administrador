@@ -1,0 +1,149 @@
+<div class="page page-ng-table">
+
+
+
+
+  <!-- page header -->
+  <div class="pageheader">
+
+    <h2>{{page.title}} <span></span></h2>
+
+    <div class="page-bar">
+
+      <ul class="page-breadcrumb">
+        <li>
+          <a ui-sref="app.dashboard"> {{main.title}}</a>
+        </li>
+        <li>
+          <a href="javascript:;">Maestros</a>
+        </li>
+        <li>
+          <a ui-sref="app.master.checklist">{{page.title}}</a>
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+  <!-- /page header -->
+
+  <!-- page content -->
+  <div class="pagecontent">
+
+    <!-- row -->
+    <div class="row">
+
+      <!-- col -->
+      <div class="col-md-12">
+
+
+        <!-- tile -->
+        <section class="tile" fullscreen="isFullscreen06">
+
+          <!-- tile body -->
+          <div class="tile-body">
+            
+            <div class="row">
+              <div class="col-md-2">
+                <button class="bg-blue-ps-1 pt-7 pb-7 pr-12 pl-12 br-15 b-0 text-white ml-20 mb-10" ng-click="updateOrCreateChecklist()" uib-tooltip="Guardar permisos"><i class="fa fa-floppy-o"></i></button>
+              </div>
+            </div>
+
+            <!-- <button class="bg-orange-ps b-0 br-15 pt-7 pb-7 pr-12 pl-12" ng-click="updateOrCreateChecklist()">Guardar</button> -->
+
+            <form class="form-horizontal" role="form">
+              <div class="form-group">
+                <label class="col-sm-1 control-label text-uppercase pt-10"><strong>Título</strong></label>
+                <div class="col-sm-3">
+                  <input class="form-control underline-input" type="text" ng-model="checklist.name" >
+                </div>
+              </div>
+            </form>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre item</th>
+                  <th>Opciones</th>
+                  <th>Eliminar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in checklist.items">
+                  <td>
+                    <input class="form-control underline-input" type="text" ng-model="item.name" >
+                  </td>
+                  <td>
+                    <button class="btn bg-blue-ps-1 br-15 b-0" ng-click="openModalAddOptions(item.id, item.name, checklist.name)" ng-disabled="!item.name || !checklist.name">Agregar opciones</button>
+                  </td>
+                  <td data-title="'Eliminar'" >
+                    <img ng-click="removeItem($index)" ng-src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/delete.png" style="width:19px; cursor:pointer" uib-tooltip="Eliminar item">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+          </div>
+          <!-- /tile body -->
+
+        </section>
+        <!-- /tile -->
+
+      </div>
+      <!-- /col -->
+
+
+    </div>
+    <!-- /row -->
+
+  </div>
+  <!-- /page content -->
+
+  <script type="text/ng-template" id="addItemOptionsModal.html">
+  <div class="modal-body text-center text-gray">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center">Opción</th>
+          <th class="text-center">Visibilidad App</th>
+          <th class="text-center">Pantalla detalle</th>
+          <th class="text-center">Observación</th>
+          <th class="text-center">Cantidad</th>
+          <th class="text-center">Fotos</th>
+          <th class="text-center">Cuál</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="option in modal.checklistOptions">
+          <td>
+            <p class="form-control-static">{{option.name}}</p>
+          </td>
+          <td>
+            <input type="checkbox" ng-model="option.appVisibility">
+          </td>
+          <td>
+            <input type="checkbox" ng-model="option.detail">
+          </td>
+          <td>
+            <input type="checkbox" ng-model="option.data.observacion.visibility">
+          </td>
+          <td>
+            <input type="checkbox" ng-model="option.data.cant.visibility">
+          </td>
+          <td>
+            <input type="checkbox" ng-model="option.data.cual.visibility">
+          </td>
+          <td>
+            <input type="checkbox" ng-model="option.data.foto.visibility">
+          </td>
+        </tr>
+      </tbody>
+    </table>    
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success btn-rounded-10 mb-10" type="button" ng-click="createChecklistOrAssignItems()" ng-disabled="">Guardar</button>    
+    <button class="btn btn-cancelRecit btn-rounded-10 mb-10" type="button" ng-click="cancel()">Cerrar</button>
+  </div>
+</script>
+
+</div>

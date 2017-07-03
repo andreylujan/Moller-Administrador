@@ -1,0 +1,98 @@
+<div class="page page-ng-table">
+
+
+
+
+  <!-- page header -->
+  <div class="pageheader">
+
+    <h2>{{page.title}} <span></span></h2>
+
+    <div class="page-bar">
+
+      <ul class="page-breadcrumb">
+        <li>
+          <a ui-sref="efinding.dashboard.generic"> {{main.title}}</a>
+        </li>
+        <li>
+          <a href="javascript:;">Checklist</a>
+        </li>
+        <li>
+          <a ui-sref="app.users.list">Lista de chequeos</a>
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+  <!-- /page header -->
+
+  <!-- page content -->
+  <div class="pagecontent">
+
+    <!-- row -->
+    <div class="row">
+
+      <!-- col -->
+      <div class="col-md-12">
+
+
+        <!-- tile -->
+        <section class="tile" fullscreen="isFullscreen06">
+          <!-- tile body -->
+          <div class="tile-body">
+
+          <table ng-table="tableParams" show-filter="true" class="table table-custom">
+              <thead>
+                <tr>
+                  <th ng-repeat="column in columns" class="text-center sortable" ng-click="sortBy(column.field_a)"> {{column.title}} </th>
+                  <th class="text-center"> PDF </th>
+                </tr>
+                <tr>
+                  <th ng-repeat="column in columns" class="text-center sortable" >
+                    <input type="text" class="form-control" ng-model="filter[column.filter].filter"/>
+                  </th>
+                  <th class="text-center" ></th>
+                  <th class="text-center" ></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr ng-repeat="checklists in $data | filter: filtro">
+                  <td>{{ checklists.company }}</td>
+                  <td>{{ checklists.code }}</td>
+                  <td>{{ checklists.construction }}</td>
+                  <td>{{ checklists.userNames }}</td>
+                  <td>{{ checklists.fechaCreacion }}</td>
+                  <td>{{ checklists.indicator }}</td>
+                  <td data-title="'PDF'" >
+                    <input ng-if="checklists.pdfUploaded" class="text-center" type="image" src="https://s3-sa-east-1.amazonaws.com/efinding/icons/PDF.png" uib-tooltip="Descargar PDF" tooltip-placement="bottom" style="width: 15px" data-pdf="{{checklists.pdf}}" ng-click="downloadPdf($event)"/>
+                    
+                    <input ng-if="!checklists.pdfUploaded" class="text-center" type="image" src="http://dhg7r6mxe01qf.cloudfront.net/icons/admin/denied2.png" uib-tooltip="PDF no disponible" tooltip-placement="bottom" style="width: 20px;" data-pdf="{{checklists.pdf}}" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="row">
+              <div class="col-md-6" style="margin: 0 auto;float: none;">
+                <pager prev="decrementPage()" next="incrementPage()" change-page="getReports({success:true,detail:'OK'},pagination.pages.current)" current="pagination.pages.current" total="pagination.pages.total"></pager>
+              </div>
+            </div>
+
+          </div>
+          <!-- /tile body -->
+
+        </section>
+        <!-- /tile -->
+
+      </div>
+      <!-- /col -->
+
+
+    </div>
+    <!-- /row -->
+
+  </div>
+  <!-- /page content -->
+
+</div>

@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+
+gem 'capistrano', '~> 3.7', '>= 3.7.1'
+gem 'capistrano-bower', '~> 1.1'
+gem 'capistrano-npm', '~> 1.0', '>= 1.0.2'
+gem 'sass', '~> 3.4', '>= 3.4.23'
+gem 'net-ssh', '~> 4.0', '>= 4.0.1'
+gem 'capistrano-rbenv', '~> 2.1'
+gem 'capistrano-passenger', '~> 0.2.0'
+gem 'capistrano-bundler', '~> 1.2'
+gem 'capistrano-grunt', '~> 0.0.4'

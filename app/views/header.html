@@ -1,0 +1,58 @@
+<header class="clearfix" ng-controller="HeaderCtrl">
+
+  <!-- Branding -->
+  <div class="branding {{main.settings.brandingColor}}">
+    <a class="brand">
+      <span>eFinding</span>
+    </a>
+    <a href="javascript:;" class="offcanvas-toggle visible-xs-inline" offcanvas-sidebar><i class="fa fa-bars"></i></a>
+  </div>
+  <!-- Branding end -->
+
+
+
+  <!-- Left-side navigation -->
+  <!--ul class="nav-left pull-left list-unstyled list-inline">
+    <li class="sidebar-collapse divided-right">
+      <a href="javascript:;" collapse-sidebar>
+        <fa name="outdent"></fa>
+      </a>
+    </li>
+  </ul-->
+  <!-- Left-side navigation end -->
+
+  <!-- Right-side navigation -->
+  <ul class="nav-right pull-right list-inline">
+
+    <li class="dropdown nav-profile" uib-dropdown on-toggle="toggled(open)">
+
+      <a href class="dropdown-toggle" uib-dropdown-toggle>
+        <!-- <img src="images/repo-icon.gif" alt="" class="img-circle size-30x30"> -->
+        <img ng-show="page.user.image != null" ng-src="{{page.user.image}}" alt="pic_img" class="img-circle size-30x30">
+        <img ng-show="page.user.image == null" ng-src="../images/efinding_logo_mini.png" alt="pic_img" class="img-circle size-30x30">
+        <span>{{page.user.fullName}} <fa name="angle-down"></fa></span>
+      </a>
+
+      <ul class="dropdown-menu animated littleFadeInRight">
+
+        <li>
+          <a ui-sref="efinding.change-password" ng-click="">
+            <fa name="asterisk"></fa>Cambiar contraseña
+          </a>
+        </li>
+        <li>
+          <a ng-href="#" ng-click="logout()">
+            <fa name="sign-out"></fa>Logout
+          </a>
+        </li>
+
+      </ul>
+
+    </li>
+
+  </ul>
+  <!-- Right-side navigation end -->
+
+
+
+</header>

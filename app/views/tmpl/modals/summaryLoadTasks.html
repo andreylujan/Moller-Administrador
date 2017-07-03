@@ -1,0 +1,34 @@
+<div class="modal-header text-gray">
+	<h3 class="text-center">Resumen</h3>
+</div>
+
+<div class="modal-body">
+
+	<ul>
+		<li>
+			<ng-pluralize count="modal.countCreated" when="{'0': 'No se ingresaron tareas nuevas','one': '{} tarea se ingresó','other': '{} tareas se ingresaron'}"></ng-pluralize>
+		</li>
+		<li>
+			<ng-pluralize count="modal.countChanged" when="{'0': 'No se actualizó ningún tarea','one': '{} tarea se actualizó','other': '{} tareas se actualizaron'}"></ng-pluralize>
+		</li>
+		<li>
+			<ng-pluralize count="modal.countErrors" when="{'0': 'Ningún tarea produjo error','one': '{} tarea NO se ingresó','other': '{} tareas NO se ingresaron'}"></ng-pluralize>
+		</li>
+	</ul>
+
+	<div ng-show="modal.errors.length">
+
+		<h4 class="text-center mb-20">Errores</h4>
+		<ul ng-repeat="error in modal.errors">
+			<li>
+				<p>Error en la fila {{error.rowNumber}}</p>
+				<p>Revise el campo <strong>{{error.field}}</strong></p>
+			</li>
+		</ul>
+	</div>
+
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-default btn-rounded-10 mb-10" type="button" ng-click="cancel()">Cerrar</button>
+</div>
