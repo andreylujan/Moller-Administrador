@@ -9,7 +9,7 @@
 
 set :deploy_to, '/srv/http/www/efinding/staging/admin'
 
-server '190.215.40.4', port: 60, user: 'plluch', password: 'zEk8qewr-@Uj',  roles: [:web, :app, :db]
+server 'efinding.moller.cl', port: 22, user: 'plluch', password: 'zEk8qewr-@Uj',  roles: [:web, :app, :db]
 
 set :branch, 'staging'
 

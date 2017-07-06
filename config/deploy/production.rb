@@ -9,7 +9,7 @@
 
 set :deploy_to, '/srv/http/www/efinding/production/admin'
 
-server '50.16.161.152', port: 60, user: 'ubuntu', roles: [:web, :app, :db]
+server 'efinding.moller.cl', port: 22, user: 'plluch', password: 'zEk8qewr-@Uj',  roles: [:web, :app, :db]
 
 set :branch, 'production'
 

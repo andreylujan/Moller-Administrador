@@ -58,14 +58,14 @@ set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/sys
 set :keep_releases, 5
 
 set :rbenv_type, :user
-set :rbenv_ruby, '2.3.1'
-set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} /home/ubuntu/.rbenv/bin/rbenv exec"
+set :rbenv_ruby, '2.4.1'
+set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} /home/plluch/.rbenv/bin/rbenv exec"
 # set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all
-set :rbenv_custom_path, '/home/ubuntu/.rbenv/bin/rbenv'
+set :rbenv_custom_path, '/home/plluch/.rbenv/bin/rbenv'
 
 
-set :passenger_restart_with_sudo, true
+set :passenger_restart_with_sudo, false
 set :grunt_tasks, 'build --force --verbose'
 
 before 'deploy:updated', :grunt
