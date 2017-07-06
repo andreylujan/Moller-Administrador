@@ -2,8 +2,8 @@
 
 //var API_URL = 'http://50.16.161.152/efinding/api/v1';		//Producción
 //var URL_SERVER = 'http://50.16.161.152/efinding/';		//Producción
-var API_URL = 'http://50.16.161.152/efinding-staging/api/v1';		//Desarrollo
-var URL_SERVER = 'http://50.16.161.152/efinding-staging/';		//Desarrollo
+var API_URL = 'https://efinding.moller.cl/efinding-staging/api/v1';		//Desarrollo
+var URL_SERVER = 'https://efinding.moller.cl/efinding-staging/';		//Desarrollo
 //var API_URL = 'http://192.168.0.2:3000/api/v1';						//Local
 //var URL_SERVER = 'http://192.168.0.2:3000/';							//Local
 
