@@ -90,8 +90,8 @@ angular.module('efindingAdminApp')
 		var modalInstance = $uibModal.open({
 			animation: true,
 			backdrop: false,
-			templateUrl: 'newGenericMasive.html',
-			controller: 'newGenericMasive',
+			templateUrl: 'newGenericConstructionMasive.html',
+			controller: 'newGenericConstructionMasive',
 			resolve: {
 			}
 		});
@@ -361,7 +361,7 @@ angular.module('efindingAdminApp')
 
 })
 
-.controller('newGenericMasive', function($scope, Utils, $log, $uibModalInstance, $uibModal, CsvContructions) {
+.controller('newGenericConstructionMasive', function($scope, Utils, $log, $uibModalInstance, $uibModal, CsvContructions) {
 	$scope.modal = {
 		csvFile: null,
 		btns: {
