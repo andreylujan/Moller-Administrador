@@ -92,7 +92,7 @@ angular
 .config(['$authProvider',
 	function($authProvider) {
 		// Parametros de configuración
-		$authProvider.loginUrl = 'https://efinding.moller.cl/efinding-staging/oauth/token'; 	//Desarrollo
+		$authProvider.loginUrl = 'https://efinding.moller.cl/oauth/token'; 	//Producción
 		//$authProvider.loginUrl = 'http://localhost:3000/oauth/token'; 						//Local
 		$authProvider.tokenName = 'access_token';
 	}

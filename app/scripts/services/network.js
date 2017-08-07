@@ -1,9 +1,9 @@
 'use strict';
 
-//var API_URL = 'https://efinding.moller.cl/efinding/api/v1';			//Producción
-//var URL_SERVER = 'https://efinding.moller.cl/efinding/';				//Producción
-var API_URL = 'https://efinding.moller.cl/efinding-staging/api/v1';		//Desarrollo
-var URL_SERVER = 'https://efinding.moller.cl/efinding-staging/';		//Desarrollo
+var API_URL = 'https://efinding.moller.cl/api/v1';		//Producción
+var URL_SERVER = 'https://efinding.moller.cl/';		//Producción
+// var API_URL = 'https://efinding.moller.cl/efinding-staging/api/v1';		//Desarrollo
+// var URL_SERVER = 'https://efinding.moller.cl/efinding-staging/';		//Desarrollo
 //var API_URL = 'http://192.168.0.2:3000/api/v1';						//Local
 //var URL_SERVER = 'http://192.168.0.2:3000/';							//Local
 
