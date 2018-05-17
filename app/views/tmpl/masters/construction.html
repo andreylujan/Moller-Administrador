@@ -114,13 +114,21 @@
             <div class="form-group">
 		  		<label for="inputPassword3" class="col-sm-3 control-label">Experto SSOMA</label>
 		  		<div class="col-sm-8">
-		  			<ui-select class="bg-white b-solid br-15" ng-model="construction.selectedExpert" close-on-select="true">
-		  				<ui-select-match placeholder="Buscar..." class="unstyled-placeholder">{{$select.selected.fullName}}</ui-select-match>
+		  			<ui-select class="bg-white b-solid br-15" multiple ng-model="construction.experts" close-on-select="true">
+		  				<ui-select-match placeholder="Buscar...">{{$item.fullName}}</ui-select-match>
 		  				<ui-select-choices repeat="expert in experts track by expert.id | propsFilter: {fullName: $select.search}" refresh-delay="200">
-		  					<div ng-bind-html="expert.fullName"></div>
+		  					{{expert.fullName}}
 		  				</ui-select-choices>
 		  			</ui-select>
 		  		</div>
+		  		<!--div class="col-sm-8">
+		  			<ui-select class="b-solid br-15" multiple ng-model="construction.experts" close-on-select="true">
+		  				<ui-select-match placeholder="Buscar...">{{$item.fullName}}</ui-select-match>
+		  				<ui-select-choices repeat="expert in experts track by expert.id | propsFilter: {fullName: $select.search}">
+		  					{{expert.fullName}}
+		  				</ui-select-choices>
+		  			</ui-select>
+		  		</div-->
 		  	</div>
             <div class="form-group">
               <label for="userRole" class="col-sm-3 control-label">Contratistas</label>

@@ -100,6 +100,24 @@ angular.module('efindingAdminApp')
 		}, function() {});
 	};
 
+	$scope.openModalRoles = function(idUser) {
+
+		var modalInstance = $uibModal.open({
+			animation: true,
+			templateUrl: 'roleDetails.html',
+			controller: 'RoleDetailsInstance',
+			resolve: {
+				idUser: function() {
+					return idUser;
+				}
+			}
+		});
+
+		modalInstance.result.then(function(datos) {
+			$scope.tableParams.reload();
+		}, function() {});
+	};
+
 	var openSendInvitation = function(userEmail) {
 
 		var modalInstance = $uibModal.open({
@@ -142,6 +160,97 @@ angular.module('efindingAdminApp')
 	};
 
 
+})
+
+.controller('RoleDetailsInstance', function($scope, $log, $uibModalInstance, idUser, Users, Roles, Validators, Utils) {
+	
+	$scope.elements = {
+		title: 'Roles',
+		alert: {
+			show: false,
+			title: '',
+			text: '',
+			color: '',
+		}
+	}
+	$scope.user = {}
+
+	$scope.modal = {
+		constructions: []
+	}
+
+	$scope.getUserDetails = function(idUser) {
+		Users.query({
+			idUser: idUser
+		}, function(success) {
+			if (success.data) {
+				$log.error(success.data.attributes.constructions)
+				$scope.user.id = success.data.id;
+				$scope.modal.constructions = success.data.attributes.constructions
+
+				if (success.data.attributes.image) {
+					$scope.user.image = success.data.attributes.image;
+				} else {
+					$scope.user.image = 'http://dhg7r6mxe01qf.cloudfront.net/icons/admin/placeholder-user-photo.png';
+				}
+
+			} else {
+				$log.log(success);
+			}
+		}, function(error) {
+			$log.log(error);
+			if (error.status) {
+				Utils.refreshToken($scope.getUserDetails);
+			}
+		});
+
+	}
+
+	$scope.getUserDetails(idUser)
+
+	$scope.saveChanges = function() {
+
+		$uibModalInstance.close({
+			action: 'editUser',
+			success: true
+		});
+
+		Users.update({
+			data: {
+				type: 'users',
+				id: idUser,
+				attributes: {
+					constructions: $scope.modal.constructions
+				}
+			},
+			idUser: idUser
+		}, function(success) {
+			if (success.data) {
+				$scope.elements.alert.title = 'Se han actualizado los datos del usuario';
+				$scope.elements.alert.text = '';
+				$scope.elements.alert.color = 'success';
+				$scope.elements.alert.show = true;
+
+
+				$uibModalInstance.close({
+					action: 'editUser',
+					success: success
+				});
+
+			} else {
+				$log.log(success);
+			}
+		}, function(error) {
+			$log.log(error);
+			if (error.status) {
+				Utils.refreshToken($scope.editUser);
+			}
+		});
+	}
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel')
+	}
 })
 
 .controller('UserDetailsInstance', function($scope, $log, $uibModalInstance, idUser, Users, Roles, Validators, Utils) {

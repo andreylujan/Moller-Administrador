@@ -112,7 +112,7 @@ angular.module('efindingAdminApp')
 		},
 		contractors: {},
 		administrator: {},
-		expert: {},
+		experts: [],
 		jTerreno: {},
 		visitador: {}
 	};
@@ -147,6 +147,8 @@ angular.module('efindingAdminApp')
  			include: 'administrator,expert,construction_personnel.personnel,construction_personnel.personnel_type'
  		}, function(success) {
  			if (success.data) {
+ 				//Cambiar por la lista que viene de servicios
+ 				var experts_array = success.data.attributes.experts
  				var administrador 	= success.data.relationships.administrator.data,
  				    experto 		= success.data.relationships.expert.data,
  				  	personal 		= success.data.relationships.construction_personnel.data;
@@ -184,10 +186,10 @@ angular.module('efindingAdminApp')
 						{
 							$scope.construction.administrator = success.included[i];
 						}
-						if (success.included[i].id === experto.id && success.included[i].type === experto.type) 
+						/*if (success.included[i].id === experto.id && success.included[i].type === experto.type) 
 						{
 							$scope.construction.expert = success.included[i];
-						}
+						}*/
 					}
 				}
 
@@ -215,6 +217,8 @@ angular.module('efindingAdminApp')
 						}
 					}
 				}
+
+				$scope.construction.experts = _.map(experts_array, function(u){ return {id: u.id, fullName: u.name }; });
 				$scope.getPersonnelJefeTerreno();
 				$scope.getUsersExpert();
 
@@ -280,10 +284,10 @@ angular.module('efindingAdminApp')
 						fullName: success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name
 					});
 
-					if ($scope.construction.expert.id === success.data[i].id) 
+					/*if ($scope.construction.expert.id === success.data[i].id) 
 					{
 						$scope.construction.selectedExpert = {fullName: success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name, id: success.data[i].id };
-					}
+					}*/
 				}
 
 				$scope.experts = _.reject(data, function(object){ return object.id === ""; });
@@ -313,26 +317,26 @@ angular.module('efindingAdminApp')
 		} else {
 			$scope.elements.buttons.editUser.text = 'Editar';
 			$scope.elements.buttons.editUser.border = 'btn-border';
+
+			var usuarios = []
+			angular.forEach($scope.construction.experts, function(value, key)
+			{
+				usuarios.push({id: value.id, name: value.fullName});	
+			});
+
 			var aux = { 
-						data: { 
-							type: 'constructions', 
-							id: idObject, 
-							attributes: { 
-								name: $scope.construction.name.text,
-								construction_personnel_attributes: [
-									{ personnel_type_id: "1", personnel_id: $scope.construction.selectedJefeTerreno.id },
-									{ personnel_type_id: "2", personnel_id: $scope.construction.visitador.id }
-								]
-							}, 
-							relationships: { 
-								expert: { 
-									data: { 
-										type: "users", 
-										id: $scope.construction.selectedExpert.id
-									} 
-								} 
-							} 
-						} , constructionId: idObject };
+					data: { 
+						type: 'constructions', 
+						id: idObject, 
+						attributes: { 
+							name: $scope.construction.name.text,
+							construction_personnel_attributes: [
+								{ personnel_type_id: "1", personnel_id: $scope.construction.selectedJefeTerreno.id },
+								{ personnel_type_id: "2", personnel_id: $scope.construction.visitador.id }
+							],
+							experts: usuarios
+						}
+					} , constructionId: idObject };
 
 			Constructions.update(aux, 
 				function(success) {
