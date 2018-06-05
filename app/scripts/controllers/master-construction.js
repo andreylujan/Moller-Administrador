@@ -23,7 +23,6 @@ angular.module('efindingAdminApp')
  		Constructions.query({
  		}, function(success) {
  			if (success.data) {
-
 				data = [];
 				for (var i = 0; i < success.data.length; i++) {
 					data.push({
@@ -104,6 +103,7 @@ angular.module('efindingAdminApp')
 })
 
 .controller('constructionDetailsInstance', function($scope, $log, $uibModalInstance, idObject, idCompany, Validators, Utils, Constructions, Users, Personnel) {
+	
 	$scope.construction = {
 		id: null,
 		name: {
@@ -114,7 +114,8 @@ angular.module('efindingAdminApp')
 		administrator: {},
 		experts: [],
 		jTerreno: {},
-		visitador: {}
+		visitador: {},
+		supervisor: {}
 	};
 
 	$scope.experts = [];
@@ -144,14 +145,15 @@ angular.module('efindingAdminApp')
 
  		Constructions.detail({
  			constructionId: idObject,
- 			include: 'administrator,expert,construction_personnel.personnel,construction_personnel.personnel_type'
+ 			include: 'administrator,supervisor,expert,construction_personnel.personnel,construction_personnel.personnel_type'
  		}, function(success) {
  			if (success.data) {
  				//Cambiar por la lista que viene de servicios
  				var experts_array = success.data.attributes.experts
  				var administrador 	= success.data.relationships.administrator.data,
  				    experto 		= success.data.relationships.expert.data,
- 				  	personal 		= success.data.relationships.construction_personnel.data;
+ 				  	personal 		= success.data.relationships.construction_personnel.data,
+ 				  	supervisor 		= success.data.relationships.supervisor.data;
 
  				$scope.construction.id = success.data.id;
  				$scope.construction.name.text = success.data.attributes.name;
@@ -180,11 +182,19 @@ angular.module('efindingAdminApp')
 					{
 						administrador = {id: null, type:null};
 					}
+					if (supervisor == null) 
+					{
+						supervisor = {id: null, type:null};
+					}
 
 					for (var i = 0; i < success.included.length; i++) {
 						if (success.included[i].id === administrador.id && success.included[i].type === administrador.type) 
 						{
 							$scope.construction.administrator = success.included[i];
+						}
+						if (success.included[i].id === supervisor.id && success.included[i].type === supervisor.type) 
+						{
+							$scope.construction.supervisor = success.included[i];
 						}
 						/*if (success.included[i].id === experto.id && success.included[i].type === experto.type) 
 						{
@@ -217,7 +227,6 @@ angular.module('efindingAdminApp')
 						}
 					}
 				}
-
 				$scope.construction.experts = _.map(experts_array, function(u){ return {id: u.id, fullName: u.name }; });
 				$scope.getPersonnelJefeTerreno();
 				$scope.getUsersExpert();
