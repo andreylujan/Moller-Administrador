@@ -1,12 +1,8 @@
 <div class="page">
-
 	<!-- page header -->
 	<div class="pageheader">
-
 		<h2>{{page.title}} <span></span></h2>
-
 		<div class="page-bar">
-
 			<ul class="page-breadcrumb">
 				<li>
           <a ui-sref="efinding.dashboard.generic"> {{main.title}}</a>
@@ -67,11 +63,11 @@
 	</div>
 	<!-- /page content -->
 
-  <script type="text/ng-template" id="constructionDetails.html">
-    <div class="modal-header text-gray">
-      <h3 class="text-center">{{elements.title}}</h3>
-    </div>
-    <div class="modal-body text-gray">
+  	<script type="text/ng-template" id="constructionDetails.html">
+    	<div class="modal-header text-gray">
+      		<h3 class="text-center">{{elements.title}}</h3>
+    	</div>
+    	<div class="modal-body text-gray">
       <div class="alert alert-{{elements.alert.color}}" ng-show="elements.alert.show"> <h4 class="text-md"><strong>{{elements.alert.title}}</strong></h4> {{elements.alert.text}} </div>
       <div class="row">
         <div class="col-md-11">
@@ -88,7 +84,7 @@
                 <input type="text" id="name" class="form-control underline-input" placeholder="Código" ng-model="construction.code" ng-change="hideAlert()" readonly>
               </div>
             </div>
-            <div class="form-group">
+            <!--div class="form-group">
               <label class="col-sm-3 control-label">Administrador de obra</label>
               <div class="col-md-8">
                 <input type="text" id="name" class="form-control underline-input" placeholder="Nombre" value="{{construction.administrator.attributes.full_name}} - {{construction.administrator.attributes.rut}}" readonly>
@@ -99,7 +95,7 @@
               <div class="col-md-8">
                 <input type="text" id="name" class="form-control underline-input" placeholder="Nombre" value="{{construction.supervisor.attributes.full_name}} - {{construction.supervisor.attributes.rut}}" readonly>
               </div>
-            </div>
+            </div-->
             <div class="form-group">
               <label class="col-sm-3 control-label">Visitador</label>
               <div class="col-md-8">
@@ -127,14 +123,9 @@
 		  				</ui-select-choices>
 		  			</ui-select>
 		  		</div>
-		  		<!--div class="col-sm-8">
-		  			<ui-select class="b-solid br-15" multiple ng-model="construction.experts" close-on-select="true">
-		  				<ui-select-match placeholder="Buscar...">{{$item.fullName}}</ui-select-match>
-		  				<ui-select-choices repeat="expert in experts track by expert.id | propsFilter: {fullName: $select.search}">
-		  					{{expert.fullName}}
-		  				</ui-select-choices>
-		  			</ui-select>
-		  		</div-->
+		  		<div class="col-sm-1">
+		  			<img ng-click="showRoles()" ng-show="expersCount > 0" src="https://s3-sa-east-1.amazonaws.com/efinding/icons/USUARIOS_INFO.png" style="width:24px; cursor:pointer" tooltip="Más info">
+		  		</div>
 		  	</div>
             <div class="form-group">
               <label for="userRole" class="col-sm-3 control-label">Contratistas</label>
@@ -150,12 +141,55 @@
           </form>
         </div>
       </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-warning btn-rounded-10 {{elements.buttons.editUser.border}} mb-10" type="button" ng-click="editGeneric(construction.id)" >{{elements.buttons.editUser.text}}</button>
-      <button class="btn btn-cancelRecit btn-rounded-10 mb-10" type="button" ng-click="cancel()">Cerrar</button>
-    </div>
-  </script>
+    	</div>
+    	<div class="modal-footer">
+      		<button class="btn btn-warning btn-rounded-10 {{elements.buttons.editUser.border}} mb-10" type="button" ng-click="editGeneric(construction.id)" >{{elements.buttons.editUser.text}}</button>
+      		<button class="btn btn-cancelRecit btn-rounded-10 mb-10" type="button" ng-click="cancel()">Cerrar</button>
+    	</div>
+ 	</script>
+
+  	<script type="text/ng-template" id="roleDetails.html">
+        <div class="modal-header text-gray">
+            <h3 class="text-center">{{elements.title}}</h3>
+        </div>
+        <div class="modal-body text-gray">
+            <!--div class="row">
+                <div class="col-md-2">
+                    <button class="bg-orange-ps b-0 br-15 pt-7 pb-7 pr-12 pl-12" ng-click="updateOrCreateChecklist()">Guardar</button>
+                </div>
+            </div-->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="text-center">Usuario</th>
+                        <th class="text-center">Experto SSOMA</th>
+                        <th class="text-center">Jefe SSOMA</th>
+                        <th class="text-center">Administrador de Obra</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="const in modal.constructions" class="text-center">
+                        <td>
+                            <p class="form-control-static">{{const.fullName}}</p>
+                        </td>
+                        <td>
+                            <input type="checkbox" ng-model="const.roles.experto.active" ng-disabled="true">
+                        </td>
+                        <td>
+                            <input type="checkbox" ng-model="const.roles.jefe.active" ng-disabled="true">
+                        </td>
+                        <td>
+                            <input type="checkbox" ng-model="const.roles.administrador.active" ng-disabled="true">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>    
+        </div>
+        <div class="modal-footer">
+            <!--button class="btn btn-orange btn-rounded-10 mb-10" type="button" ng-click="saveChanges()">Guardar</button-->
+            <!--button class="btn btn-cancelRecit btn-rounded-10 mb-10" type="button" ng-click="cancel()">Cerrar</button-->
+        </div>
+    </script>
 
 
   	<script type="text/ng-template" id="newGenericConstructionMasive.html">

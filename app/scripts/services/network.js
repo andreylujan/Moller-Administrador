@@ -515,6 +515,22 @@ angular.module('efindingAdminApp')
 
 })
 
+.factory('UserContruction', function($resource) {
+
+	return $resource(API_URL + '/userconstruction/:idContruction', {
+		idContruction: '@idContruction'
+	}, {
+		query: {
+			method: 'GET',
+			headers: {
+				Accept: 'application/vnd.api+json'
+			},
+			params: '@fields'
+		}
+	});
+
+})
+
 // Type Personnel
 .factory('PersonnelTypes', function($resource) {
 

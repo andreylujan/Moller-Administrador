@@ -71,6 +71,25 @@ angular.module('efindingAdminApp')
 				},
 			}
 		});
+
+		modalInstance.result.then(function(datos) {
+			if (datos.action === 'showRoles') {
+				var modalInstanceRoles = $uibModal.open({
+					animation: true,
+					templateUrl: 'roleDetails.html',
+					controller: 'RoleDetailsInstance',
+					resolve: {
+						idObject: function() {
+							return idObject;
+						},
+						idCompany: function() {
+							return idCompany;
+						},
+					}
+				});
+			}
+			$scope.tableParams.reload();
+		}, function() {});
 	};
 
  	$scope.getConstructions();
@@ -99,10 +118,9 @@ angular.module('efindingAdminApp')
 			$scope.getConstructions();
 		}, function() {});
 	};
-
 })
-
-.controller('constructionDetailsInstance', function($scope, $log, $uibModalInstance, idObject, idCompany, Validators, Utils, Constructions, Users, Personnel) {
+.controller('constructionDetailsInstance', function($scope, $log, $uibModalInstance, idObject, 
+	idCompany, Validators, Utils, Constructions, Users, Personnel) {
 	
 	$scope.construction = {
 		id: null,
@@ -120,6 +138,7 @@ angular.module('efindingAdminApp')
 
 	$scope.experts = [];
 	$scope.jefesTerreno = [];
+	$scope.expersCount = 0;
 
 	$scope.elements = {
 		buttons: {
@@ -149,6 +168,7 @@ angular.module('efindingAdminApp')
  		}, function(success) {
  			if (success.data) {
  				//Cambiar por la lista que viene de servicios
+ 				$scope.expersCount = success.data.attributes.experts.length;
  				var experts_array = success.data.attributes.experts
  				var administrador 	= success.data.relationships.administrator.data,
  				    experto 		= success.data.relationships.expert.data,
@@ -271,7 +291,6 @@ angular.module('efindingAdminApp')
 				Utils.refreshToken($scope.getUsers);
 			}
 		});
-
 	};
 
  	$scope.getUsersExpert = function() {
@@ -310,7 +329,6 @@ angular.module('efindingAdminApp')
 				Utils.refreshToken($scope.getUsers);
 			}
 		});
-
 	};
 
  	$scope.cancel = function() {
@@ -381,6 +399,54 @@ angular.module('efindingAdminApp')
 		$scope.elements.alert.color = '';
 	};
 
+	$scope.showRoles = function() {
+		$uibModalInstance.close({
+			action: 'showRoles'
+		});
+	};
+})
+
+.controller('RoleDetailsInstance', function($scope, $log, $uibModalInstance, idObject, 
+	idCompany, UserContruction, Roles, Validators, Utils) {
+	
+	$scope.elements = {
+		title: 'Roles',
+		alert: {
+			show: false,
+			title: '',
+			text: '',
+			color: '',
+		}
+	}
+	$scope.user = {}
+
+	$scope.modal = {
+		constructions: []
+	}
+
+	$scope.getRolesDetail = function(idObject) {
+		UserContruction.query({
+			idContruction: idObject
+		}, function(success) {
+			if (success.data) {
+				$scope.modal.constructions = success.data
+			} else {
+				$log.log(success);
+			}
+		}, function(error) {
+			$log.log(error);
+			if (error.status) {
+				Utils.refreshToken($scope.getRolesDetail);
+			}
+		});
+
+	}
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel')
+	}
+
+	$scope.getRolesDetail(idObject)
 })
 
 .controller('newGenericConstructionMasive', function($scope, Utils, $log, $uibModalInstance, $uibModal, CsvContructions) {
@@ -463,8 +529,6 @@ angular.module('efindingAdminApp')
 	$scope.ok = function() {
 		$uibModalInstance.close();
 	};
-
-
 })
 
 .controller('SummaryLoadModalInstance', function($scope, $log, $uibModalInstance, data) {
@@ -501,5 +565,4 @@ angular.module('efindingAdminApp')
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
-
 });
