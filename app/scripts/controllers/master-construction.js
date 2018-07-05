@@ -77,7 +77,7 @@ angular.module('efindingAdminApp')
 				var modalInstanceRoles = $uibModal.open({
 					animation: true,
 					templateUrl: 'roleDetails.html',
-					controller: 'RoleDetailsInstance',
+					controller: 'RoleDetailsInstanceRole',
 					resolve: {
 						idObject: function() {
 							return idObject;
@@ -406,7 +406,7 @@ angular.module('efindingAdminApp')
 	};
 })
 
-.controller('RoleDetailsInstance', function($scope, $log, $uibModalInstance, idObject, 
+.controller('RoleDetailsInstanceRole', function($scope, $log, $uibModalInstance, idObject, 
 	idCompany, UserContruction, Roles, Validators, Utils) {
 	
 	$scope.elements = {
