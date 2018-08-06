@@ -103,16 +103,34 @@
               </div>
             </div>
             <div class="form-group">
-		  		<label for="inputPassword3" class="col-sm-3 control-label">Jefe de terreno</label>
-		  		<div class="col-sm-8">
-		  			<ui-select class="bg-white b-solid br-15" ng-model="construction.selectedJefeTerreno" close-on-select="true">
-		  				<ui-select-match placeholder="Buscar..." class="unstyled-placeholder">{{$select.selected.name}}</ui-select-match>
-		  				<ui-select-choices repeat="jefe in jefesTerreno track by jefe.name | propsFilter: {name: $select.search}" refresh-delay="200">
-		  					<div ng-bind-html="jefe.name"></div>
-		  				</ui-select-choices>
-		  			</ui-select>
-		  		</div>
-		  	</div>
+		  		    <label for="inputPassword3" class="col-sm-3 control-label">Jefe de terreno</label>
+		  		    <div class="col-sm-8">
+                <ui-select class="bg-white b-solid br-15" ng-model="construction.selectedJefeTerreno" close-on-select="true">
+                  <ui-select-match placeholder="Buscar..." class="unstyled-placeholder">{{$select.selected.name}}</ui-select-match>
+                  <ui-select-choices repeat="jefe in jefesTerreno track by jefe.name | propsFilter: {name: $select.search}" refresh-delay="200">
+		  					    <div ng-bind-html="jefe.name"></div>
+		  				    </ui-select-choices>
+		  			    </ui-select>
+		  		    </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Administrador</label>
+              <div class="col-md-8">
+                <input type="text" id="jefeSoma" class="form-control underline-input" placeholder="Administrador" ng-model="construction.selectedAdministrador" readonly>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Jefe SSOMA</label>
+              <div class="col-md-8">
+                <input type="text" id="jefeSoma" class="form-control underline-input" placeholder="jefeSoma" ng-model="construction.selectedJefeSoma" readonly>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Experto SSOMA</label>
+              <div class="col-md-8">
+                <input type="text" id="expertoSoma" class="form-control underline-input" placeholder="expertoSoma" ng-model="construction.selectedExpert" readonly>
+              </div>
+            </div>
             <div class="form-group">
 		  		<label for="inputPassword3" class="col-sm-3 control-label">Roles</label>
 		  		<div class="col-sm-8">

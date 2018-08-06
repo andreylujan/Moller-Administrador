@@ -137,7 +137,11 @@ angular.module('efindingAdminApp')
 	};
 
 	$scope.experts = [];
-	$scope.jefesTerreno = [];
+  $scope.jefesTerreno = [];
+  $scope.jefesSoma = [];
+  $scope.construction.selectedJefeSoma = 'No asignado'
+  $scope.construction.selectedExpert = 'No asignado' 
+  $scope.construction.selectedAdministrador = 'No asignado'
 	$scope.expersCount = 0;
 
 	$scope.elements = {
@@ -249,8 +253,7 @@ angular.module('efindingAdminApp')
 				}
 				$scope.construction.experts = _.map(experts_array, function(u){ return {id: u.id, fullName: u.name }; });
 				$scope.getPersonnelJefeTerreno();
-				$scope.getUsersExpert();
-
+        $scope.getUsersExpertJefeSoma();
 			} else {
 				$log.error(success);
 			}
@@ -293,33 +296,52 @@ angular.module('efindingAdminApp')
 		});
 	};
 
- 	$scope.getUsersExpert = function() {
+ 	$scope.getUsersExpertJefeSoma = function() {
 
 		Users.query({
 			idUser: ''
 		}, function(success) {
 			if (success.data) {
+        console.log(success.data);
 				var data = [];
 				for (var i = 0; i < success.data.length; i++) {
-					data.push({
-						id: success.data[i].id,
-						firstName: success.data[i].attributes.first_name,
-						lastName: success.data[i].attributes.last_name,
-						email: success.data[i].attributes.email,
-						roleName: success.data[i].attributes.role_name,
-						roleId: success.data[i].attributes.role_id,
-						active: success.data[i].attributes.active,
-						fullName: success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name
-					});
+          // data.push({
+          //   id: success.data[i].id,
+          //   firstName: success.data[i].attributes.first_name,
+          //   lastName: success.data[i].attributes.last_name,
+          //   name: success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name,
+          //   email: success.data[i].attributes.email,
+          //   roleName: success.data[i].attributes.role_name,
+          //   roleId: success.data[i].attributes.role_id,
+          //   active: success.data[i].attributes.active,
+          //   fullName: success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name
+          // });
+          if (success.data[i].attributes.constructions.length > 0) {
+            for (let c = 0; c < success.data[i].attributes.constructions.length; c++) {
+              if (success.data[i].attributes.constructions[c].code === $scope.construction.code) {
+                if (success.data[i].attributes.constructions[c].roles.experto.active) {
+                  $scope.construction.selectedExpert = success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name
+                }
+                if (success.data[i].attributes.constructions[c].roles.jefe.active) {
+                  $scope.construction.selectedJefeSoma = success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name
+                }
+                if (success.data[i].attributes.constructions[c].roles.administrador.active) {
+                  $scope.construction.selectedAdministrador = success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name
+                }
+                // for (let d = 0; d < success.data[i].attributes.constructions.roles.length; d++) {
 
-					/*if ($scope.construction.expert.id === success.data[i].id) 
-					{
-						$scope.construction.selectedExpert = {fullName: success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name, id: success.data[i].id };
-					}*/
-				}
-
-				$scope.experts = _.reject(data, function(object){ return object.id === ""; });
-				//$scope.experts = _.where(data, {roleId: 3});
+                // console.log(success.data[i].attributes.constructions[c].code)
+                // $scope.construction.selectedExpert = success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name
+                }
+              }
+              
+            }
+          }
+          console.log($scope.construction.selectedExpert);
+          console.log($scope.construction.selectedJefe);
+          // if ($scope.construction.id === success.data[i].attributes.)           
+        
+				// $scope.experts = data
 			} else {
 				$log.error(success);
 			}
@@ -329,7 +351,45 @@ angular.module('efindingAdminApp')
 				Utils.refreshToken($scope.getUsers);
 			}
 		});
-	};
+  };
+  
+  // $scope.getJefeSoma = function() {
+
+	// 	Users.query({
+	// 		idUser: ''
+	// 	}, function(success) {
+	// 		if (success.data) {
+  //       console.log(success.data);
+	// 			var data = [];
+	// 			for (var i = 0; i < success.data.length; i++) {
+  //         if (success.data[i].attributes.role_id === 2) {
+  //           data.push({
+  //             id: success.data[i].id,
+  //             firstName: success.data[i].attributes.first_name,
+  //             lastName: success.data[i].attributes.last_name,
+  //             name: success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name,
+  //             email: success.data[i].attributes.email,
+  //             roleName: success.data[i].attributes.role_name,
+  //             roleId: success.data[i].attributes.role_id,
+  //             active: success.data[i].attributes.active,
+  //             fullName: success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name
+  //           });
+  //           $scope.construction.selectedSoma = {fullName: success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name, id: success.data[i].id };
+  //         }  
+  //       }
+  //       console.log(data);
+	// 			$scope.jefesSoma = data
+	// 		} else {
+	// 			$log.error(success);
+	// 		}
+	// 	}, function(error) {
+	// 		$log.error(error);
+	// 		if (error.status === 401) {
+	// 			Utils.refreshToken($scope.getUsers);
+	// 		}
+	// 	});
+	// };
+
 
  	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
