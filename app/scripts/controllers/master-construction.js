@@ -254,6 +254,7 @@ angular.module('efindingAdminApp')
 				$scope.construction.experts = _.map(experts_array, function(u){ return {id: u.id, fullName: u.name }; });
 				$scope.getPersonnelJefeTerreno();
         $scope.getUsersExpertJefeSoma();
+        $scope.getUsersExpert();
 			} else {
 				$log.error(success);
 			}
@@ -294,15 +295,53 @@ angular.module('efindingAdminApp')
 				Utils.refreshToken($scope.getUsers);
 			}
 		});
-	};
+  };
+  
+  $scope.getUsersExpert = function() {
+    console.log('andrse');
+		Users.query({
+			idUser: ''
+		}, function(success) {
+			if (success.data) {
+				var data = [];
+				for (var i = 0; i < success.data.length; i++) {
+					data.push({
+						id: success.data[i].id,
+						firstName: success.data[i].attributes.first_name,
+						lastName: success.data[i].attributes.last_name,
+						email: success.data[i].attributes.email,
+						roleName: success.data[i].attributes.role_name,
+						roleId: success.data[i].attributes.role_id,
+						active: success.data[i].attributes.active,
+						fullName: success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name
+					});
 
+					/*if ($scope.construction.expert.id === success.data[i].id) 
+					{
+						$scope.construction.selectedExpert = {fullName: success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name, id: success.data[i].id };
+					}*/
+				}
+
+				$scope.experts = _.reject(data, function(object){ return object.id === ""; });
+				//$scope.experts = _.where(data, {roleId: 3});
+			} else {
+				$log.error(success);
+			}
+		}, function(error) {
+			$log.error(error);
+			if (error.status === 401) {
+				Utils.refreshToken($scope.getUsers);
+			}
+		});
+	};
+  
  	$scope.getUsersExpertJefeSoma = function() {
 
 		Users.query({
 			idUser: ''
 		}, function(success) {
 			if (success.data) {
-        console.log(success.data);
+        // console.log(success.data);
 				var data = [];
 				for (var i = 0; i < success.data.length; i++) {
           // data.push({
@@ -337,8 +376,8 @@ angular.module('efindingAdminApp')
               
             }
           }
-          console.log($scope.construction.selectedExpert);
-          console.log($scope.construction.selectedJefe);
+          // console.log($scope.construction.selectedExpert);
+          // console.log($scope.construction.selectedJefe);
           // if ($scope.construction.id === success.data[i].attributes.)           
         
 				// $scope.experts = data
