@@ -298,7 +298,6 @@ angular.module('efindingAdminApp')
   };
   
   $scope.getUsersExpert = function() {
-    console.log('andrse');
 		Users.query({
 			idUser: ''
 		}, function(success) {
@@ -306,7 +305,7 @@ angular.module('efindingAdminApp')
 				var data = [];
 				for (var i = 0; i < success.data.length; i++) {
 					data.push({
-						id: success.data[i].id,
+            id: success.data[i].id,
 						firstName: success.data[i].attributes.first_name,
 						lastName: success.data[i].attributes.last_name,
 						email: success.data[i].attributes.email,
@@ -320,9 +319,16 @@ angular.module('efindingAdminApp')
 					{
 						$scope.construction.selectedExpert = {fullName: success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name, id: success.data[i].id };
 					}*/
-				}
-
-				$scope.experts = _.reject(data, function(object){ return object.id === ""; });
+        }    
+        var toExperts = _.reject(data, function(object){ return object.id === ""; });
+        toExperts.sort(function(a, b){
+          var nameA = a.fullName.toLowerCase(), nameB = b.fullName.toLowerCase();
+          console.log(nameA);
+          console.log(nameB);
+          return nameA.localeCompare(nameB)
+        })
+        console.log(toExperts);
+        $scope.experts = toExperts;
 				//$scope.experts = _.where(data, {roleId: 3});
 			} else {
 				$log.error(success);
