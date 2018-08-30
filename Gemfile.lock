@@ -39,7 +39,7 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
-  capistrano (~> 3.7, >= 3.7.1)
+  capistrano (~> 3.11, >= 3.11.0)
   capistrano-bower (~> 1.1)
   capistrano-bundler (~> 1.2)
   capistrano-grunt (~> 0.0.4)
@@ -50,4 +50,4 @@ DEPENDENCIES
   sass (~> 3.4, >= 3.4.23)
 
 BUNDLED WITH
-   1.16.4
+   1.15.3
