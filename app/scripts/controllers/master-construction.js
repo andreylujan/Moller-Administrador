@@ -323,11 +323,8 @@ angular.module('efindingAdminApp')
         var toExperts = _.reject(data, function(object){ return object.id === ""; });
         toExperts.sort(function(a, b){
           var nameA = a.fullName.toLowerCase(), nameB = b.fullName.toLowerCase();
-          console.log(nameA);
-          console.log(nameB);
           return nameA.localeCompare(nameB)
         })
-        console.log(toExperts);
         $scope.experts = toExperts;
 				//$scope.experts = _.where(data, {roleId: 3});
 			} else {
