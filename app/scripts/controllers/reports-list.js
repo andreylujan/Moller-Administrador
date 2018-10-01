@@ -153,7 +153,7 @@ angular.module('efindingAdminApp')
 		Inspections.query(filtersToSearch, function(success) {
 			reportsIncluded = success.included;
 			$scope.pagination.pages.total = success.meta.page_count;
-
+      
 			//$log.error(success.data);
 
 			for (i = 0; i < success.data.length; i++) {
@@ -698,7 +698,7 @@ angular.module('efindingAdminApp')
 			Firmar.save({
 				idInspection: idInspection
 			}, function(success) {
-				if (success.data) {
+				if (success.data) {          
 					$scope.elements.alert.title = 'Se ha firmado el documento';
 					$scope.elements.alert.text = '';
 					$scope.elements.alert.color = 'success';

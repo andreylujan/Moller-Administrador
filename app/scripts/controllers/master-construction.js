@@ -301,7 +301,7 @@ angular.module('efindingAdminApp')
 		Users.query({
 			idUser: ''
 		}, function(success) {
-			if (success.data) {
+			if (success.data) {               
 				var data = [];
 				for (var i = 0; i < success.data.length; i++) {
 					data.push({
@@ -344,20 +344,11 @@ angular.module('efindingAdminApp')
 			idUser: ''
 		}, function(success) {
 			if (success.data) {
-        // console.log(success.data);
 				var data = [];
 				for (var i = 0; i < success.data.length; i++) {
-          // data.push({
-          //   id: success.data[i].id,
-          //   firstName: success.data[i].attributes.first_name,
-          //   lastName: success.data[i].attributes.last_name,
-          //   name: success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name,
-          //   email: success.data[i].attributes.email,
-          //   roleName: success.data[i].attributes.role_name,
-          //   roleId: success.data[i].attributes.role_id,
-          //   active: success.data[i].attributes.active,
-          //   fullName: success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name
-          // });
+          if (success.data[i].attributes.first_name === 'Macarena') {
+            console.log('Name: ', success.data[i].attributes)
+          } 
           if (success.data[i].attributes.constructions.length > 0) {
             for (let c = 0; c < success.data[i].attributes.constructions.length; c++) {
               if (success.data[i].attributes.constructions[c].code === $scope.construction.code) {
@@ -370,20 +361,10 @@ angular.module('efindingAdminApp')
                 if (success.data[i].attributes.constructions[c].roles.administrador.active) {
                   $scope.construction.selectedAdministrador = success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name
                 }
-                // for (let d = 0; d < success.data[i].attributes.constructions.roles.length; d++) {
-
-                // console.log(success.data[i].attributes.constructions[c].code)
-                // $scope.construction.selectedExpert = success.data[i].attributes.first_name + ' ' + success.data[i].attributes.last_name
-                }
               }
-              
             }
           }
-          // console.log($scope.construction.selectedExpert);
-          // console.log($scope.construction.selectedJefe);
-          // if ($scope.construction.id === success.data[i].attributes.)           
-        
-				// $scope.experts = data
+        }
 			} else {
 				$log.error(success);
 			}
