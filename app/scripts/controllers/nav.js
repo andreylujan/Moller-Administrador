@@ -16,6 +16,14 @@ angular.module('efindingAdminApp')
 		menuLoaded: false
 	};
 
+  let SPECIAL_PATHS = ['efinding.maestros.tabla', 'efinding.users.passwords'];
+  const superuserMenu = Utils.getInStorage('role_id') == 1;
+
+  $scope.showItem = function(item) {
+    return !(SPECIAL_PATHS.includes(item.path)) ||
+    (item.path == 'efinding.users.passwords' && superuserMenu)
+  }
+
 	$scope.goToMaster = function(type) {
 		$state.go('efinding.maestros.tabla', {
 			type: type
@@ -62,7 +70,7 @@ angular.module('efindingAdminApp')
 									//menu[i].items[j].collection_name = 'prueba';
 								}
 							}
-							if (success.included[k].id === menu[i].items[j].id) 
+							if (success.included[k].id === menu[i].items[j].id)
 							{
 								menu[i].items[j].included= success.included[k].attributes.url_include;
 							}
