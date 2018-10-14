@@ -4,8 +4,8 @@ var API_URL = 'https://efinding.moller.cl/api/v1';		//Producción
 var URL_SERVER = 'https://efinding.moller.cl/';		//Producción
 // var API_URL = 'https://efinding.moller.cl/efinding-staging/api/v1';		//Desarrollo
 // var URL_SERVER = 'https://efinding.moller.cl/efinding-staging/';		//Desarrollo
-//var API_URL = 'http://192.168.0.2:3000/api/v1';						//Local
-//var URL_SERVER = 'http://192.168.0.2:3000/';							//Local
+// var API_URL = 'http://127.0.0.1:3000/api/v1';						//Local
+// var URL_SERVER = 'http://127.0.0.1:3000/';							//Local
 
 angular.module('efindingAdminApp')
 
@@ -389,6 +389,22 @@ angular.module('efindingAdminApp')
 	});
 })
 
+// MANAGE passwords
+.factory('ManagePasswords', function($resource){
+  return $resource(API_URL + '/users/change_password', {}, {
+    update: {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/vnd.api+json'
+      },
+      params: {
+        user_id: '@userId',
+        password: '@password',
+				password_confirmation: '@passwordConfirmation'
+      }
+    }
+  })
+})
 
 // Comapnies
 .factory('Companies', function($resource) {
