@@ -68,7 +68,7 @@
           <a ui-sref="{{section.path}}"><fa name="{{section.icon}}"></fa> <span>{{section.name}}</span></a>
           <ul>
             <div ng-repeat="item in section.items">
-              <li ui-sref-active="active" ng-if="item.path != 'efinding.maestros.tabla'"> 
+              <li ui-sref-active="active" ng-if="showItem(item)">
                 <a ui-sref="{{item.path}}">
                   <fa name="caret-right"></fa> {{item.name}}
                 </a>
@@ -84,5 +84,5 @@
       </ul>
     </uib-accordion-group>
 
-  </uib-accordion> 
+  </uib-accordion>
 </div>

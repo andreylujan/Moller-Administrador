@@ -92,8 +92,8 @@ angular
 .config(['$authProvider',
 	function($authProvider) {
 		// Parametros de configuración
-		$authProvider.loginUrl = 'https://efinding.moller.cl/oauth/token'; 	//Producción
-		//$authProvider.loginUrl = 'http://localhost:3000/oauth/token'; 						//Local
+		$authProvider.loginUrl = 'https://efinding.moller.cl/oauth/token';  //Producción
+		// $authProvider.loginUrl = 'http://127.0.0.1:3000/oauth/token'; 	//Local
 		$authProvider.tokenName = 'access_token';
 	}
 ])
@@ -133,7 +133,7 @@ angular
 			templateUrl: 'views/tmpl/pages/dashboard-manflas-public.html',
 			controller: 'ManflasPublicDashboardCtrl',
 		})
-		
+
 
 		.state('efinding', {
 			abstract: true,
@@ -172,6 +172,11 @@ angular
 				templateUrl: 'views/tmpl/users/invite.html',
 				controller: 'UsersInviteCtrl'
 			})
+      .state('efinding.users.passwords', {
+        url: '/passwords_management',
+        templateUrl: 'views/tmpl/users/passwords.html',
+        controller: 'UsersPasswordsCtrl'
+      })
 		//Reports
 		.state('efinding.inspecciones', {
 				url: '/inspecciones',
@@ -256,7 +261,7 @@ angular
 				templateUrl: 'views/tmpl/masters/history-massive-loads.html',
 				controller: 'HistoryMassiveLoadsCtrl'
 			})
-    
+
 		//Areas
 		.state('efinding.areas', {
 				url: '/areas',
@@ -283,7 +288,7 @@ angular
 				templateUrl: 'views/tmpl/masters/roles-edit.html',
 				controller: 'MasterRolesEdit'
 			})
-    
+
 		.state('efinding.change-password', {
 			url: '/change-password',
 			templateUrl: 'views/tmpl/pages/change-password.html',
